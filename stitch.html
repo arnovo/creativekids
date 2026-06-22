@@ -1,0 +1,1419 @@
+<!-- Design System -->
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&amp;family=Nunito+Sans:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-lowest": "#ffffff",
+                    "secondary-container": "#b2f2bb",
+                    "on-secondary-fixed": "#00210b",
+                    "secondary": "#2f6a3f",
+                    "on-surface": "#1b1c1c",
+                    "outline": "#737780",
+                    "inverse-primary": "#a7c8ff",
+                    "background": "#fbf9f8",
+                    "primary-fixed-dim": "#a7c8ff",
+                    "surface-dim": "#dbd9d9",
+                    "tertiary-container": "#eeb3c2",
+                    "inverse-on-surface": "#f2f0f0",
+                    "surface-container-highest": "#e4e2e2",
+                    "on-surface-variant": "#43474f",
+                    "on-tertiary-fixed-variant": "#653a46",
+                    "surface-bright": "#fbf9f8",
+                    "on-primary-container": "#2a5084",
+                    "primary-fixed": "#d5e3ff",
+                    "secondary-fixed": "#b2f2bb",
+                    "surface-variant": "#e4e2e2",
+                    "on-error": "#ffffff",
+                    "surface-container-low": "#f5f3f3",
+                    "surface-container-high": "#eae8e7",
+                    "error-container": "#ffdad6",
+                    "on-primary-fixed-variant": "#1f477a",
+                    "on-tertiary-fixed": "#32101b",
+                    "surface-container": "#efeded",
+                    "surface-tint": "#3a5f94",
+                    "on-secondary-fixed-variant": "#145129",
+                    "on-secondary": "#ffffff",
+                    "outline-variant": "#c3c6d1",
+                    "inverse-surface": "#303030",
+                    "on-background": "#1b1c1c",
+                    "primary-container": "#a0c4ff",
+                    "on-primary": "#ffffff",
+                    "on-tertiary-container": "#70434f",
+                    "secondary-fixed-dim": "#96d5a0",
+                    "on-tertiary": "#ffffff",
+                    "tertiary": "#80515e",
+                    "tertiary-fixed": "#ffd9e1",
+                    "primary": "#3a5f94",
+                    "on-error-container": "#93000a",
+                    "tertiary-fixed-dim": "#f2b7c5",
+                    "on-secondary-container": "#357044",
+                    "surface": "#fbf9f8",
+                    "on-primary-fixed": "#001b3b",
+                    "error": "#ba1a1a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-tablet": "32px",
+                    "touch-target-min": "56px",
+                    "margin-desktop": "48px",
+                    "unit": "8px",
+                    "gutter": "24px",
+                    "margin-mobile": "16px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Nunito Sans"],
+                    "headline-md": ["Quicksand"],
+                    "headline-lg": ["Quicksand"],
+                    "label-lg": ["Nunito Sans"],
+                    "headline-xl-mobile": ["Quicksand"],
+                    "headline-sm": ["Quicksand"],
+                    "body-md": ["Nunito Sans"],
+                    "headline-xl": ["Quicksand"],
+                    "headline-lg-mobile": ["Quicksand"]
+            },
+            "fontSize": {
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                    "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "700"}],
+                    "headline-xl-mobile": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-xl": ["40px", {"lineHeight": "48px", "fontWeight": "700"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #fbf9f8;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 48;
+            user-select: none;
+        }
+        .bento-card {
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+        }
+        .bento-card:active {
+            transform: scale(0.96);
+        }
+        .safe-area-bottom {
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body-md text-on-surface">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-margin-mobile md:px-margin-tablet h-[88px] bg-surface shadow-[0_4px_12px_rgba(58,95,148,0.12)]">
+<div class="flex items-center gap-4">
+<button class="w-12 h-12 flex items-center justify-center rounded-full hover:bg-primary-container/20 transition-colors duration-300 active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-primary text-[32px]">arrow_back</span>
+</button>
+<h1 class="font-headline-xl text-headline-xl text-primary tracking-tight">CreativaKids</h1>
+</div>
+<div class="flex items-center gap-2">
+<button class="w-12 h-12 flex items-center justify-center rounded-full hover:bg-primary-container/20 transition-colors duration-300 active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-primary text-[32px]">home</span>
+</button>
+<div class="w-12 h-12 rounded-full border-2 border-primary-container overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A high-quality, 3D clay-style avatar of a friendly, smiling child character with vibrant colors and soft lighting. The character has oversized features and a playful expression, fitting a modern child-friendly OS aesthetic. The background is a soft, solid pastel blue, emphasizing a clean and safe digital environment for youth." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDI4wec00f8RuMA1d4s0s9ME7D15lGGdPl1_xyV4ygmIr0YaV-QH40L4k5_Y0xWMCVRiFrzKDY0Dab6Yv1p4ZPuXUq-3luvsizkHMarQe3z75xcp_6W2BMRt8HFztIbgMAsA8Kf-KuUWCAQZmJ3-afTcvy0fUk8jSoA93iPZUCMpOFe6JCa7CNOdvU2nt80QCdYQ-d84loyyUfiKVS4u6zyjref98_UvFZmIob2C6hSPO0YxU5XpigJNLV35tooIVtkQ4fscQ-hyZk"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="pt-[104px] pb-[112px] px-margin-mobile md:px-margin-tablet lg:px-margin-desktop max-w-7xl mx-auto">
+<!-- Welcome Section -->
+<section class="mb-gutter">
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-on-surface mb-2">¡Hola, Pequeño Artista!</h2>
+<p class="font-body-lg text-on-surface-variant">¿Qué quieres crear hoy?</p>
+</section>
+<!-- Bento Grid Dashboard -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-gutter">
+<!-- Tarjeta 1: Aprende a Dibujar (Pastel Azul) -->
+<div class="lg:col-span-7 bento-card bg-[#d5e3ff] rounded-xl p-8 flex flex-col justify-between min-h-[280px] shadow-[0_8px_32px_rgba(58,95,148,0.08)] relative overflow-hidden group cursor-pointer">
+<div class="relative z-10">
+<div class="bg-white/40 w-16 h-16 rounded-full flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-primary text-[40px]">draw</span>
+</div>
+<h3 class="font-headline-lg text-primary mb-2">Aprende a Dibujar</h3>
+<p class="font-body-lg text-on-primary-fixed-variant max-w-[240px]">Sigue los pasos y crea personajes increíbles.</p>
+</div>
+<div class="absolute right-0 bottom-0 w-1/2 h-full flex items-end justify-end pointer-events-none translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+<img class="h-[80%] object-contain" data-alt="A charming, high-definition digital illustration of a cute anime character holding a giant pencil. The character is designed in a modern, 'chibi' art style with large expressive eyes and soft gradients. The lighting is warm and inviting, set against a background of soft floating geometric shapes in primary colors, maintaining a structured yet playful atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNJ6fMpnBdGj6dJUfnnTDjqssLIsRTSffL5ZepWnL5FKJejyC3wOcHa1Uaox_VJ-DYZKnUHbqo1qM_ORAgkFiUrdMUj07Zpm72DmZa-S0-HM8_uk9cHsxHE4Of8BSDURia7lmqsUEnHi976nTcOKOIpuhEcV7IGwKzi01frN_nm6BZJITzuSyIcMm5qiiV3b3c-8UJ3XnTLeE33DDDXsMA0kswPxLITAplzx_MqM31MT7p5bDMWcbYaNfvpBQCjx2N4wNNj2M5K4E"/>
+</div>
+</div>
+<!-- Tarjeta 2: Lienzo Libre (Pastel Verde) -->
+<div class="lg:col-span-5 bento-card bg-[#d3f9d8] rounded-xl p-8 flex flex-col justify-between min-h-[280px] shadow-[0_8px_32px_rgba(20,81,41,0.08)] relative overflow-hidden group cursor-pointer">
+<div class="relative z-10">
+<div class="bg-white/40 w-16 h-16 rounded-full flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-secondary text-[40px]">palette</span>
+</div>
+<h3 class="font-headline-lg text-secondary mb-2">Lienzo Libre</h3>
+<p class="font-body-lg text-on-secondary-fixed-variant">¡Usa todas las herramientas y crea tu propia obra maestra!</p>
+</div>
+<div class="absolute -right-8 -bottom-8 opacity-20 group-hover:rotate-12 transition-transform duration-500">
+<span class="material-symbols-outlined text-[200px] text-secondary">brush</span>
+</div>
+</div>
+<!-- Tarjeta 3: Mis Notas (Pastel Amarillo) -->
+<div class="lg:col-span-5 bento-card bg-[#fff4cc] rounded-xl p-8 flex flex-col min-h-[280px] shadow-[0_8px_32px_rgba(101,58,70,0.06)] relative overflow-hidden group cursor-pointer">
+<div class="relative z-10 h-full flex flex-col">
+<div class="bg-white/40 w-16 h-16 rounded-full flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-[#856404] text-[40px]">description</span>
+</div>
+<h3 class="font-headline-lg text-[#856404] mb-4">Mis Notas</h3>
+<div class="flex flex-wrap gap-2">
+<span class="px-4 py-2 rounded-full bg-[#ffecb3] text-[#856404] font-label-lg shadow-sm">⭐ Favoritos</span>
+<span class="px-4 py-2 rounded-full bg-[#f8bbd0] text-[#856404] font-label-lg shadow-sm">🎨 Ideas</span>
+<span class="px-4 py-2 rounded-full bg-[#b2ebf2] text-[#856404] font-label-lg shadow-sm">📝 Tareas</span>
+</div>
+<p class="font-body-md text-[#856404]/80 mt-auto">Organiza tus pensamientos con colores.</p>
+</div>
+</div>
+<!-- Tarjeta 4: Colorear (Pastel Rosa) -->
+<div class="lg:col-span-7 bento-card bg-[#fce4ec] rounded-xl p-8 flex flex-col justify-between min-h-[280px] shadow-[0_8px_32px_rgba(128,81,94,0.08)] relative overflow-hidden group cursor-pointer">
+<div class="relative z-10">
+<div class="bg-white/40 w-16 h-16 rounded-full flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-tertiary text-[40px]">auto_stories</span>
+</div>
+<h3 class="font-headline-lg text-tertiary mb-2">Colorear</h3>
+<p class="font-body-lg text-on-tertiary-fixed-variant max-w-[300px]">Cientos de dibujos esperando por tus colores favoritos.</p>
+</div>
+<div class="absolute right-12 top-1/2 -translate-y-1/2 flex gap-4">
+<div class="w-12 h-32 bg-primary rounded-full translate-y-4 animate-bounce" style="animation-delay: 0.1s"></div>
+<div class="w-12 h-32 bg-secondary rounded-full -translate-y-4 animate-bounce" style="animation-delay: 0.3s"></div>
+<div class="w-12 h-32 bg-tertiary rounded-full translate-y-8 animate-bounce" style="animation-delay: 0.5s"></div>
+</div>
+</div>
+</div>
+<!-- Floating Action Button Contextual -->
+<button class="fixed bottom-28 right-margin-mobile md:right-margin-tablet w-[72px] h-[72px] bg-primary text-on-primary rounded-full shadow-[0_12px_24px_rgba(58,95,148,0.24)] flex items-center justify-center hover:scale-110 active:scale-95 transition-all duration-300 z-40 group">
+<span class="material-symbols-outlined text-[32px]">add</span>
+<span class="absolute right-20 bg-primary text-on-primary px-4 py-2 rounded-xl whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none font-label-lg">Nuevo Proyecto</span>
+</button>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-margin-tablet pb-safe h-[96px] bg-surface-container-lowest shadow-[0_-8px_24px_rgba(58,95,148,0.08)] rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/50 active:scale-90 transition-all duration-200 p-2" href="#">
+<span class="material-symbols-outlined text-[28px]">draw</span>
+<span class="font-label-lg text-label-lg">Dibujar</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-6 py-2 active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined text-[28px]">palette</span>
+<span class="font-label-lg text-label-lg">Lienzo</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/50 active:scale-90 transition-all duration-200 p-2" href="#">
+<span class="material-symbols-outlined text-[28px]">description</span>
+<span class="font-label-lg text-label-lg">Notas</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/50 active:scale-90 transition-all duration-200 p-2" href="#">
+<span class="material-symbols-outlined text-[28px]">auto_stories</span>
+<span class="font-label-lg text-label-lg">Colorear</span>
+</a>
+</nav>
+<script>
+        // Micro-interactions and subtle feedback
+        document.querySelectorAll('.bento-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                // Subtle lift effect
+                card.style.boxShadow = '0 16px 48px rgba(58,95,148,0.16)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.boxShadow = '0 8px 32px rgba(58,95,148,0.08)';
+            });
+        });
+
+        // Safe area height adjustment
+        const adjustLayout = () => {
+            const vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+        };
+        window.addEventListener('resize', adjustLayout);
+        adjustLayout();
+    </script>
+</body></html>
+
+<!-- Dashboard Principal -->
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&amp;family=Nunito+Sans:wght@300;400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-lowest": "#ffffff",
+                    "secondary-container": "#b2f2bb",
+                    "on-secondary-fixed": "#00210b",
+                    "secondary": "#2f6a3f",
+                    "on-surface": "#1b1c1c",
+                    "outline": "#737780",
+                    "inverse-primary": "#a7c8ff",
+                    "background": "#fbf9f8",
+                    "primary-fixed-dim": "#a7c8ff",
+                    "surface-dim": "#dbd9d9",
+                    "tertiary-container": "#eeb3c2",
+                    "inverse-on-surface": "#f2f0f0",
+                    "surface-container-highest": "#e4e2e2",
+                    "on-surface-variant": "#43474f",
+                    "on-tertiary-fixed-variant": "#653a46",
+                    "surface-bright": "#fbf9f8",
+                    "on-primary-container": "#2a5084",
+                    "primary-fixed": "#d5e3ff",
+                    "secondary-fixed": "#b2f2bb",
+                    "surface-variant": "#e4e2e2",
+                    "on-error": "#ffffff",
+                    "surface-container-low": "#f5f3f3",
+                    "surface-container-high": "#eae8e7",
+                    "error-container": "#ffdad6",
+                    "on-primary-fixed-variant": "#1f477a",
+                    "on-tertiary-fixed": "#32101b",
+                    "surface-container": "#efeded",
+                    "surface-tint": "#3a5f94",
+                    "on-secondary-fixed-variant": "#145129",
+                    "on-secondary": "#ffffff",
+                    "outline-variant": "#c3c6d1",
+                    "inverse-surface": "#303030",
+                    "on-background": "#1b1c1c",
+                    "primary-container": "#a0c4ff",
+                    "on-primary": "#ffffff",
+                    "on-tertiary-container": "#70434f",
+                    "secondary-fixed-dim": "#96d5a0",
+                    "on-tertiary": "#ffffff",
+                    "tertiary": "#80515e",
+                    "tertiary-fixed": "#ffd9e1",
+                    "primary": "#3a5f94",
+                    "on-error-container": "#93000a",
+                    "tertiary-fixed-dim": "#f2b7c5",
+                    "on-secondary-container": "#357044",
+                    "surface": "#fbf9f8",
+                    "on-primary-fixed": "#001b3b",
+                    "error": "#ba1a1a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-tablet": "32px",
+                    "touch-target-min": "56px",
+                    "margin-desktop": "48px",
+                    "unit": "8px",
+                    "gutter": "24px",
+                    "margin-mobile": "16px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Nunito Sans"],
+                    "headline-md": ["Quicksand"],
+                    "headline-lg": ["Quicksand"],
+                    "label-lg": ["Nunito Sans"],
+                    "headline-xl-mobile": ["Quicksand"],
+                    "headline-sm": ["Quicksand"],
+                    "body-md": ["Nunito Sans"],
+                    "headline-xl": ["Quicksand"],
+                    "headline-lg-mobile": ["Quicksand"]
+            },
+            "fontSize": {
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                    "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "700"}],
+                    "headline-xl-mobile": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-xl": ["40px", {"lineHeight": "48px", "fontWeight": "700"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            overscroll-behavior: none;
+            touch-action: none;
+        }
+        .canvas-grid {
+            background-image: radial-gradient(#d5e3ff 1.5px, transparent 1.5px);
+            background-size: 32px 32px;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 48;
+            user-select: none;
+        }
+        .active-tool {
+            background-color: #a0c4ff !important;
+            color: #2a5084 !important;
+            transform: scale(1.1);
+        }
+        .custom-shadow {
+            shadow-[0_8px_24px_rgba(58,95,148,0.12)];
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface font-body-md overflow-hidden">
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-margin-tablet h-[88px] bg-surface shadow-[0_4px_12px_rgba(58,95,148,0.12)]">
+<div class="flex items-center gap-4">
+<button class="w-[56px] h-[56px] flex items-center justify-center rounded-full hover:bg-primary-container/20 transition-colors active:scale-95 text-primary">
+<span class="material-symbols-outlined text-[32px]">arrow_back</span>
+</button>
+<h1 class="font-headline-lg text-headline-lg text-primary tracking-tight">CreativaKids</h1>
+</div>
+<div class="flex items-center gap-4">
+<button class="px-6 h-[56px] bg-surface-container flex items-center gap-2 rounded-full font-label-lg text-primary hover:bg-surface-variant transition-colors active:scale-95">
+<span class="material-symbols-outlined">save</span>
+<span>Guardar</span>
+</button>
+<button class="w-[56px] h-[56px] flex items-center justify-center rounded-full bg-primary text-on-primary shadow-lg hover:brightness-110 active:scale-95">
+<span class="material-symbols-outlined text-[32px]">home</span>
+</button>
+</div>
+</header>
+<!-- Canvas Area -->
+<main class="relative w-full h-screen pt-[88px] pb-[96px] overflow-hidden bg-white canvas-grid cursor-crosshair" id="drawing-canvas-container">
+<!-- Floating Instruction Overlay (Top Left) -->
+<div class="absolute top-[112px] left-margin-tablet z-40 space-y-6 pointer-events-none">
+<div class="w-64 bg-surface-container-lowest/95 backdrop-blur-md p-6 rounded-xl shadow-[0_12px_32px_rgba(58,95,148,0.15)] border-2 border-primary-fixed pointer-events-auto">
+<div class="flex items-center justify-between mb-4">
+<span class="font-headline-sm text-headline-sm text-primary">Paso Actual</span>
+<span class="bg-primary-container text-on-primary-container px-3 py-1 rounded-full text-[12px] font-bold">1 / 12</span>
+</div>
+<div class="aspect-square bg-white rounded-lg flex items-center justify-center overflow-hidden border border-outline-variant mb-6 relative">
+<img class="w-full h-full object-contain p-4" data-alt="A clean, minimalist black and white line art illustration of a classic anime-style eye. The drawing shows the basic almond shape with a thick upper lash line and a large circular iris, demonstrating a clear step-by-step tutorial style. The background is pure white to emphasize the tutorial nature of the sketch, set in a bright, modern light-mode educational app interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAELGgg7pc0KrZ5s4lLii1UQGLc2DTBeNmiSGQvyMNSoPD9p37_6i-IPdkojiCn97_z7aIHLH27qakwM3rHUfhb1WIjHQDQb6WP5jihiOdFuonYR4ZmeCjn9KKwWic1YOJ37QCu-x92E94vuLm7tUch11BudtvR10unM-0QcquWkrVdwtyYd3fNXxxbVIvia9VTd0q29DmfCEw6y9sa4Gfve3pblDRwAqGlD9LuH8RZ565hcb6ULDj1JBwhh5gOBYIwmK5uVQE4qSg"/>
+</div>
+<div class="flex gap-4">
+<button class="flex-1 h-[56px] flex items-center justify-center gap-2 bg-surface-container-high text-on-surface-variant rounded-full font-label-lg transition-all active:scale-90 hover:bg-surface-variant">
+<span class="material-symbols-outlined">arrow_back</span>
+<span>Anterior</span>
+</button>
+<button class="flex-1 h-[56px] flex items-center justify-center gap-2 bg-primary text-on-primary rounded-full font-label-lg shadow-md transition-all active:scale-90 hover:brightness-110">
+<span>Siguiente</span>
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Floating Tool Sidebar (Right) -->
+<div class="absolute top-1/2 -translate-y-1/2 right-margin-tablet z-40 bg-surface-container-lowest/90 backdrop-blur-xl py-6 px-4 rounded-full shadow-[0_12px_48px_rgba(58,95,148,0.2)] flex flex-col items-center gap-6 border border-white">
+<!-- Main Tools -->
+<div class="flex flex-col gap-4">
+<button class="w-[64px] h-[64px] flex items-center justify-center rounded-full bg-primary-container text-on-primary-container active-tool transition-all duration-300 shadow-sm" title="Lápiz">
+<span class="material-symbols-outlined text-[32px]">draw</span>
+</button>
+<button class="w-[64px] h-[64px] flex items-center justify-center rounded-full bg-surface-container text-on-surface-variant hover:bg-surface-variant transition-all duration-300" title="Goma">
+<span class="material-symbols-outlined text-[32px]">ink_eraser</span>
+</button>
+<button class="w-[64px] h-[64px] flex items-center justify-center rounded-full bg-surface-container text-on-surface-variant hover:bg-surface-variant transition-all duration-300" title="Grosor">
+<span class="material-symbols-outlined text-[32px]">line_weight</span>
+</button>
+</div>
+<div class="w-10 h-px bg-outline-variant"></div>
+<!-- Palette -->
+<div class="flex flex-col gap-3">
+<button class="w-10 h-10 rounded-full border-4 border-white shadow-md ring-2 ring-primary bg-[#3a5f94]" title="Azul Principal"></button>
+<button class="w-10 h-10 rounded-full border-4 border-white shadow-md bg-[#eeb3c2] hover:scale-110 transition-transform" title="Pastel Rosa"></button>
+<button class="w-10 h-10 rounded-full border-4 border-white shadow-md bg-[#b2f2bb] hover:scale-110 transition-transform" title="Pastel Menta"></button>
+<button class="w-10 h-10 rounded-full border-4 border-white shadow-md bg-[#ffd9e1] hover:scale-110 transition-transform" title="Pastel Melocotón"></button>
+<button class="w-10 h-10 rounded-full border-4 border-white shadow-md bg-[#1b1c1c] hover:scale-110 transition-transform" title="Negro"></button>
+<button class="w-10 h-10 rounded-full border-4 border-white shadow-md bg-gradient-to-tr from-primary to-tertiary hover:scale-110 transition-transform" title="Más colores">
+<span class="material-symbols-outlined text-white text-[16px]">add</span>
+</button>
+</div>
+</div>
+<!-- Animated Background Detail (Subtle Atmosphere) -->
+<div class="absolute bottom-10 left-1/2 -translate-x-1/2 opacity-20 pointer-events-none">
+
+</div>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-margin-tablet pb-safe h-[96px] bg-surface-container-lowest rounded-t-xl shadow-[0_-8px_24px_rgba(58,95,148,0.08)]">
+<button class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-6 py-2 active:scale-90 transition-all duration-200">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">draw</span>
+<span class="font-label-lg text-label-lg">Dibujar</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/50 rounded-xl px-6 py-2 active:scale-90 transition-all duration-200">
+<span class="material-symbols-outlined">palette</span>
+<span class="font-label-lg text-label-lg">Lienzo</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/50 rounded-xl px-6 py-2 active:scale-90 transition-all duration-200">
+<span class="material-symbols-outlined">description</span>
+<span class="font-label-lg text-label-lg">Notas</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/50 rounded-xl px-6 py-2 active:scale-90 transition-all duration-200">
+<span class="material-symbols-outlined">auto_stories</span>
+<span class="font-label-lg text-label-lg">Colorear</span>
+</button>
+</nav>
+<!-- Floating Action Button (Optional Detail) -->
+<button class="fixed bottom-[120px] right-margin-tablet w-[72px] h-[72px] rounded-full bg-secondary text-on-secondary shadow-[0_8px_24px_rgba(47,106,63,0.3)] flex items-center justify-center active:scale-90 transition-all hover:brightness-110 z-50">
+<span class="material-symbols-outlined text-[36px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</button>
+<script>
+        // Simple Canvas Interaction Mockup
+        const canvasContainer = document.getElementById('drawing-canvas-container');
+        let isDrawing = false;
+
+        canvasContainer.addEventListener('mousedown', (e) => {
+            if(e.target.closest('button') || e.target.closest('.pointer-events-auto')) return;
+            isDrawing = true;
+            createStroke(e.clientX, e.clientY);
+        });
+
+        window.addEventListener('mouseup', () => isDrawing = false);
+
+        canvasContainer.addEventListener('mousemove', (e) => {
+            if (isDrawing) {
+                createStroke(e.clientX, e.clientY);
+            }
+        });
+
+        function createStroke(x, y) {
+            const dot = document.createElement('div');
+            dot.className = 'absolute w-3 h-3 bg-primary rounded-full pointer-events-none opacity-40';
+            dot.style.left = `${x - 6}px`;
+            dot.style.top = `${y - 6}px`;
+            canvasContainer.appendChild(dot);
+            
+            // Limit strokes for performance in this mockup
+            if (canvasContainer.children.length > 500) {
+                canvasContainer.removeChild(canvasContainer.children[4]);
+            }
+        }
+
+        // Tool selection behavior
+        const tools = document.querySelectorAll('.active-tool, [title="Goma"], [title="Lápiz"]');
+        tools.forEach(tool => {
+            tool.addEventListener('click', () => {
+                tools.forEach(t => {
+                    t.classList.remove('active-tool', 'bg-primary-container', 'text-on-primary-container');
+                    t.classList.add('bg-surface-container', 'text-on-surface-variant');
+                });
+                tool.classList.add('active-tool', 'bg-primary-container', 'text-on-primary-container');
+                tool.classList.remove('bg-surface-container', 'text-on-surface-variant');
+            });
+        });
+    </script>
+</body></html>
+
+<!-- Aprender a Dibujar (Pasos) -->
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CreativaKids - Notas</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&amp;family=Nunito+Sans:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .note-paper {
+            background-color: #ffffff;
+            background-image: linear-gradient(#e5e7eb 1px, transparent 1px);
+            background-size: 100% 32px;
+            line-height: 32px;
+        }
+        .highlighter-active {
+            background-color: rgba(255, 241, 118, 0.5);
+            box-shadow: 0 0 8px rgba(255, 241, 118, 0.3);
+        }
+        /* Custom scrollbar for a cleaner kid-friendly look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #c3c6d1;
+            border-radius: 10px;
+        }
+        .bounce-click:active {
+            transform: scale(0.95);
+        }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-lowest": "#ffffff",
+                    "secondary-container": "#b2f2bb",
+                    "on-secondary-fixed": "#00210b",
+                    "secondary": "#2f6a3f",
+                    "on-surface": "#1b1c1c",
+                    "outline": "#737780",
+                    "inverse-primary": "#a7c8ff",
+                    "background": "#fbf9f8",
+                    "primary-fixed-dim": "#a7c8ff",
+                    "surface-dim": "#dbd9d9",
+                    "tertiary-container": "#eeb3c2",
+                    "inverse-on-surface": "#f2f0f0",
+                    "surface-container-highest": "#e4e2e2",
+                    "on-surface-variant": "#43474f",
+                    "on-tertiary-fixed-variant": "#653a46",
+                    "surface-bright": "#fbf9f8",
+                    "on-primary-container": "#2a5084",
+                    "primary-fixed": "#d5e3ff",
+                    "secondary-fixed": "#b2f2bb",
+                    "surface-variant": "#e4e2e2",
+                    "on-error": "#ffffff",
+                    "surface-container-low": "#f5f3f3",
+                    "surface-container-high": "#eae8e7",
+                    "error-container": "#ffdad6",
+                    "on-primary-fixed-variant": "#1f477a",
+                    "on-tertiary-fixed": "#32101b",
+                    "surface-container": "#efeded",
+                    "surface-tint": "#3a5f94",
+                    "on-secondary-fixed-variant": "#145129",
+                    "on-secondary": "#ffffff",
+                    "outline-variant": "#c3c6d1",
+                    "inverse-surface": "#303030",
+                    "on-background": "#1b1c1c",
+                    "primary-container": "#a0c4ff",
+                    "on-primary": "#ffffff",
+                    "on-tertiary-container": "#70434f",
+                    "secondary-fixed-dim": "#96d5a0",
+                    "on-tertiary": "#ffffff",
+                    "tertiary": "#80515e",
+                    "tertiary-fixed": "#ffd9e1",
+                    "primary": "#3a5f94",
+                    "on-error-container": "#93000a",
+                    "tertiary-fixed-dim": "#f2b7c5",
+                    "on-secondary-container": "#357044",
+                    "surface": "#fbf9f8",
+                    "on-primary-fixed": "#001b3b",
+                    "error": "#ba1a1a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-tablet": "32px",
+                    "touch-target-min": "56px",
+                    "margin-desktop": "48px",
+                    "unit": "8px",
+                    "gutter": "24px",
+                    "margin-mobile": "16px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Nunito Sans"],
+                    "headline-md": ["Quicksand"],
+                    "headline-lg": ["Quicksand"],
+                    "label-lg": ["Nunito Sans"],
+                    "headline-xl-mobile": ["Quicksand"],
+                    "headline-sm": ["Quicksand"],
+                    "body-md": ["Nunito Sans"],
+                    "headline-xl": ["Quicksand"],
+                    "headline-lg-mobile": ["Quicksand"]
+            },
+            "fontSize": {
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                    "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "700"}],
+                    "headline-xl-mobile": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-xl": ["40px", {"lineHeight": "48px", "fontWeight": "700"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body-md min-h-screen flex flex-col overflow-hidden">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex items-center px-6 md:px-margin-tablet h-[88px] bg-surface dark:bg-surface-dim shadow-[0_4px_12px_rgba(58,95,148,0.12)]">
+<div class="flex items-center gap-4 w-full">
+<button class="w-[56px] h-[56px] flex items-center justify-center rounded-full hover:bg-primary-container/20 transition-colors active:scale-95">
+<span class="material-symbols-outlined text-primary text-[28px]" data-icon="arrow_back">arrow_back</span>
+</button>
+<h1 class="flex-grow font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-primary tracking-tight">CreativaKids</h1>
+<div class="flex items-center gap-2">
+<button class="w-[56px] h-[56px] flex items-center justify-center rounded-full hover:bg-primary-container/20 transition-colors active:scale-95">
+<span class="material-symbols-outlined text-primary text-[28px]" data-icon="home">home</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Content Layout -->
+<main class="flex flex-col md:flex-row h-screen pt-[88px] pb-[96px] overflow-hidden">
+<!-- Sidebar Categories -->
+<aside class="w-full md:w-[280px] bg-surface-container-low p-6 overflow-y-auto border-r border-outline-variant/30">
+<h2 class="font-headline-sm text-headline-sm text-on-surface-variant mb-6 px-2">Categorías</h2>
+<div class="grid grid-cols-2 md:grid-cols-1 gap-4">
+<!-- Personal -->
+<button class="flex items-center gap-4 p-4 bg-surface-container-lowest rounded-lg shadow-sm hover:shadow-md transition-all active:scale-95 group border border-transparent hover:border-primary/20">
+<span class="material-symbols-outlined text-primary text-[32px] group-hover:scale-110 transition-transform" data-icon="folder" style="font-variation-settings: 'FILL' 1;">folder</span>
+<span class="font-label-lg text-label-lg text-on-surface">Personal</span>
+</button>
+<!-- Dibujos -->
+<button class="flex items-center gap-4 p-4 bg-surface-container-lowest rounded-lg shadow-sm hover:shadow-md transition-all active:scale-95 group border border-transparent hover:border-secondary/20">
+<span class="material-symbols-outlined text-secondary text-[32px] group-hover:scale-110 transition-transform" data-icon="folder" style="font-variation-settings: 'FILL' 1;">folder</span>
+<span class="font-label-lg text-label-lg text-on-surface">Dibujos</span>
+</button>
+<!-- Ideas -->
+<button class="flex items-center gap-4 p-4 bg-surface-container-lowest rounded-lg shadow-sm hover:shadow-md transition-all active:scale-95 group border border-transparent hover:border-tertiary/20">
+<span class="material-symbols-outlined text-tertiary text-[32px] group-hover:scale-110 transition-transform" data-icon="folder" style="font-variation-settings: 'FILL' 1;">folder</span>
+<span class="font-label-lg text-label-lg text-on-surface">Ideas</span>
+</button>
+<!-- Escuela -->
+<button class="flex items-center gap-4 p-4 bg-surface-container-lowest rounded-lg shadow-sm hover:shadow-md transition-all active:scale-95 group border border-transparent hover:border-on-primary-fixed-variant/20">
+<span class="material-symbols-outlined text-on-primary-fixed-variant text-[32px] group-hover:scale-110 transition-transform" data-icon="folder" style="font-variation-settings: 'FILL' 1;">folder</span>
+<span class="font-label-lg text-label-lg text-on-surface">Escuela</span>
+</button>
+</div>
+</aside>
+<!-- Main Workspace (The Note) -->
+<section class="flex-grow flex flex-col bg-background relative overflow-hidden">
+<!-- Toolbar -->
+<div class="h-16 bg-surface-container-high/50 backdrop-blur-sm flex items-center px-4 md:px-6 gap-2 border-b border-outline-variant/20">
+<button class="w-[48px] h-[48px] flex items-center justify-center rounded-lg hover:bg-surface-variant transition-colors active:scale-90" title="Negrita">
+<span class="material-symbols-outlined font-bold text-on-surface-variant" data-icon="format_bold">format_bold</span>
+</button>
+<button class="w-[48px] h-[48px] flex items-center justify-center rounded-lg hover:bg-surface-variant transition-colors active:scale-90" title="Cursiva">
+<span class="material-symbols-outlined italic text-on-surface-variant" data-icon="format_italic">format_italic</span>
+</button>
+<div class="h-8 w-px bg-outline-variant mx-2"></div>
+<button class="flex items-center gap-2 px-4 h-[48px] rounded-full bg-primary text-on-primary font-label-lg text-label-lg shadow-lg hover:shadow-xl active:scale-95 transition-all" title="Subrayador">
+<span class="material-symbols-outlined" data-icon="brush" style="font-variation-settings: 'FILL' 1;">brush</span>
+<span>Subrayador</span>
+</button>
+<button class="w-[48px] h-[48px] flex items-center justify-center rounded-lg hover:bg-surface-variant transition-colors active:scale-90 ml-auto">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="more_vert">more_vert</span>
+</button>
+</div>
+<!-- Note Area -->
+<div class="flex-grow p-6 md:p-12 overflow-y-auto">
+<div class="max-w-4xl mx-auto bg-surface-container-lowest rounded-xl shadow-[0_8px_32px_rgba(58,95,148,0.06)] p-8 md:p-16 min-h-full note-paper border-2 border-primary/5">
+<div class="font-headline-lg text-headline-lg text-primary mb-12 outline-none" contenteditable="true">
+                        Mis ideas brillantes 🌟
+                    </div>
+<div class="font-body-lg text-body-lg text-on-surface space-y-4 outline-none" contenteditable="true">
+<p>Hoy es un gran día para empezar algo nuevo en CreativaKids.</p>
+<p>Podemos dibujar un dragón que vuela por el espacio o tal vez diseñar una casa en un árbol gigante.</p>
+<p>
+<span class="bg-yellow-200/60 px-1 rounded-sm shadow-[0_0_10px_rgba(253,224,71,0.3)]">Recuerda siempre usar muchos colores y divertirte mucho</span> mientras aprendes.
+                        </p>
+<p>Ideas pendientes:</p>
+<ul class="list-disc pl-6 space-y-2">
+<li>Comprar acuarelas mágicas.</li>
+<li>Pintar el cielo de color verde menta.</li>
+<li>Escribir un cuento sobre un robot que amaba el brócoli.</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- Floating Action Button (FAB) -->
+<button class="fixed bottom-[112px] right-8 w-[64px] h-[64px] bg-primary text-on-primary rounded-full flex items-center justify-center shadow-[0_12px_24px_rgba(58,95,148,0.3)] hover:scale-105 active:scale-95 transition-all z-40">
+<span class="material-symbols-outlined text-[32px]" data-icon="add">add</span>
+</button>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-margin-tablet pb-safe h-[96px] bg-surface-container-lowest dark:bg-surface-container-low shadow-[0_-8px_24px_rgba(58,95,148,0.08)] rounded-t-xl">
+<div class="flex flex-col items-center justify-center text-on-surface-variant group hover:bg-surface-variant/50 active:scale-90 transition-all duration-200 p-2 rounded-xl cursor-pointer">
+<span class="material-symbols-outlined text-[28px]" data-icon="draw">draw</span>
+<span class="font-label-lg text-label-lg">Dibujar</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant group hover:bg-surface-variant/50 active:scale-90 transition-all duration-200 p-2 rounded-xl cursor-pointer">
+<span class="material-symbols-outlined text-[28px]" data-icon="palette">palette</span>
+<span class="font-label-lg text-label-lg">Lienzo</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-6 py-2 active:scale-90 transition-all duration-200 cursor-pointer">
+<span class="material-symbols-outlined text-[28px]" data-icon="description">description</span>
+<span class="font-label-lg text-label-lg">Notas</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant group hover:bg-surface-variant/50 active:scale-90 transition-all duration-200 p-2 rounded-xl cursor-pointer">
+<span class="material-symbols-outlined text-[28px]" data-icon="auto_stories">auto_stories</span>
+<span class="font-label-lg text-label-lg">Colorear</span>
+</div>
+</nav>
+<!-- Micro-interaction Script -->
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const buttons = document.querySelectorAll('button');
+            buttons.forEach(btn => {
+                btn.addEventListener('mousedown', () => {
+                    btn.classList.add('bounce-click');
+                });
+                btn.addEventListener('mouseup', () => {
+                    setTimeout(() => btn.classList.remove('bounce-click'), 150);
+                });
+            });
+
+            // Handle tool selection visual feedback
+            const tools = document.querySelectorAll('.h-16 button');
+            tools.forEach(tool => {
+                tool.addEventListener('click', () => {
+                    if(!tool.classList.contains('bg-primary')) {
+                         // Simple toggle simulation
+                         tool.classList.toggle('bg-primary-container/30');
+                    }
+                });
+            });
+        });
+    </script>
+</body></html>
+
+<!-- Mis Notas Creativas -->
+<!DOCTYPE html><html class="light" lang="es"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&amp;family=Nunito+Sans:wght@400;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-lowest": "#ffffff",
+                    "secondary-container": "#b2f2bb",
+                    "on-secondary-fixed": "#00210b",
+                    "secondary": "#2f6a3f",
+                    "on-surface": "#1b1c1c",
+                    "outline": "#737780",
+                    "inverse-primary": "#a7c8ff",
+                    "background": "#fbf9f8",
+                    "primary-fixed-dim": "#a7c8ff",
+                    "surface-dim": "#dbd9d9",
+                    "tertiary-container": "#eeb3c2",
+                    "inverse-on-surface": "#f2f0f0",
+                    "surface-container-highest": "#e4e2e2",
+                    "on-surface-variant": "#43474f",
+                    "on-tertiary-fixed-variant": "#653a46",
+                    "surface-bright": "#fbf9f8",
+                    "on-primary-container": "#2a5084",
+                    "primary-fixed": "#d5e3ff",
+                    "secondary-fixed": "#b2f2bb",
+                    "surface-variant": "#e4e2e2",
+                    "on-error": "#ffffff",
+                    "surface-container-low": "#f5f3f3",
+                    "surface-container-high": "#eae8e7",
+                    "error-container": "#ffdad6",
+                    "on-primary-fixed-variant": "#1f477a",
+                    "on-tertiary-fixed": "#32101b",
+                    "surface-container": "#efeded",
+                    "surface-tint": "#3a5f94",
+                    "on-secondary-fixed-variant": "#145129",
+                    "on-secondary": "#ffffff",
+                    "outline-variant": "#c3c6d1",
+                    "inverse-surface": "#303030",
+                    "on-background": "#1b1c1c",
+                    "primary-container": "#a0c4ff",
+                    "on-primary": "#ffffff",
+                    "on-tertiary-container": "#70434f",
+                    "secondary-fixed-dim": "#96d5a0",
+                    "on-tertiary": "#ffffff",
+                    "tertiary": "#80515e",
+                    "tertiary-fixed": "#ffd9e1",
+                    "primary": "#3a5f94",
+                    "on-error-container": "#93000a",
+                    "tertiary-fixed-dim": "#f2b7c5",
+                    "on-secondary-container": "#357044",
+                    "surface": "#fbf9f8",
+                    "on-primary-fixed": "#001b3b",
+                    "error": "#ba1a1a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-tablet": "32px",
+                    "touch-target-min": "56px",
+                    "margin-desktop": "48px",
+                    "unit": "8px",
+                    "gutter": "24px",
+                    "margin-mobile": "16px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Nunito Sans"],
+                    "headline-md": ["Quicksand"],
+                    "headline-lg": ["Quicksand"],
+                    "label-lg": ["Nunito Sans"],
+                    "headline-xl-mobile": ["Quicksand"],
+                    "headline-sm": ["Quicksand"],
+                    "body-md": ["Nunito Sans"],
+                    "headline-xl": ["Quicksand"],
+                    "headline-lg-mobile": ["Quicksand"]
+            },
+            "fontSize": {
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                    "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "700"}],
+                    "headline-xl-mobile": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-xl": ["40px", {"lineHeight": "48px", "fontWeight": "700"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #fbf9f8;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .canvas-container {
+            cursor: crosshair;
+            touch-action: none;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 48;
+            user-select: none;
+        }
+        .tool-active {
+            transform: scale(1.1);
+        }
+        .transition-all-custom {
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
+        }
+        #main-canvas {
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body class="font-body-md text-on-surface">
+<!-- Header / Top Bar (from JSON guide) -->
+<header class="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-margin-tablet h-[88px] bg-surface dark:bg-surface-dim shadow-[0_4px_12px_rgba(58,95,148,0.12)]">
+<div class="flex items-center gap-4">
+<button class="w-[56px] h-[56px] flex items-center justify-center rounded-full hover:bg-primary-container/20 active:scale-95 transition-all text-primary">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<h1 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary tracking-tight">Lienzo Libre</h1>
+</div>
+<div class="flex items-center gap-unit">
+<button class="w-[56px] h-[56px] flex items-center justify-center rounded-full hover:bg-primary-container/20 active:scale-95 transition-all text-primary" id="toggle-sidebar">
+<span class="material-symbols-outlined">home</span>
+</button>
+</div>
+</header>
+<!-- The Infinite Canvas Area -->
+<main class="w-full h-screen relative bg-surface-container-lowest canvas-container">
+<canvas class="w-full h-full" id="main-canvas" width="390" height="884"></canvas>
+<!-- Floating Hide/Show Button -->
+<div class="fixed left-1/2 -translate-x-1/2 z-[60] bottom-[340px]">
+<button class="bg-surface-container-high text-primary rounded-full px-4 py-2 flex items-center gap-2 shadow-sm border border-outline-variant hover:bg-surface-variant transition-all active:scale-90" id="toolbar-visibility-toggle">
+<span class="material-symbols-outlined" id="toggle-icon">expand_more</span>
+<span class="font-label-lg text-label-lg" id="toggle-text">Ocultar Herramientas</span>
+</button>
+</div>
+<!-- Toolbar Pill (Bottom Center) -->
+<div class="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 transition-all-custom" id="main-toolbar"><div class="bg-surface-container-lowest/90 backdrop-blur-md rounded-xl p-4 flex flex-col gap-4 shadow-xl border border-outline-variant w-[320px] md:w-[400px]"><div class="flex items-center justify-between gap-2"><div class="flex gap-2"><button class="tool-btn w-12 h-12 flex items-center justify-center rounded-full bg-primary-container text-on-primary-container shadow-sm" data-tool="pencil"><span class="material-symbols-outlined">edit</span></button><button class="tool-btn w-12 h-12 flex items-center justify-center rounded-full hover:bg-surface-variant text-on-surface-variant" data-tool="brush"><span class="material-symbols-outlined">brush</span></button><button class="tool-btn w-12 h-12 flex items-center justify-center rounded-full hover:bg-surface-variant text-on-surface-variant" data-tool="bucket"><span class="material-symbols-outlined">format_color_fill</span></button></div><div class="w-[1px] h-8 bg-outline-variant"></div><div class="flex gap-2"><button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-variant text-on-surface-variant"><span class="material-symbols-outlined">undo</span></button><button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-variant text-on-surface-variant"><span class="material-symbols-outlined">redo</span></button></div></div><div class="flex flex-col gap-2"><div class="flex justify-between items-center"><span class="text-label-lg font-bold text-on-surface-variant">Grosor</span><span class="text-label-lg text-primary">12px</span></div><input type="range" min="1" max="50" value="12" class="w-full h-2 bg-surface-container-high rounded-lg appearance-none cursor-pointer accent-primary"></div><div class="flex flex-col gap-2"><span class="text-label-lg font-bold text-on-surface-variant">Colores</span><div class="grid grid-cols-6 gap-2"><button class="w-8 h-8 rounded-full bg-[#FF5252] border border-outline-variant"></button><button class="w-8 h-8 rounded-full bg-[#FF4081] border border-outline-variant"></button><button class="w-8 h-8 rounded-full bg-[#E040FB] border border-outline-variant"></button><button class="w-8 h-8 rounded-full bg-[#7C4DFF] border border-outline-variant"></button><button class="w-8 h-8 rounded-full bg-[#536DFE] border border-outline-variant"></button><button class="w-8 h-8 rounded-full flex items-center justify-center bg-surface-container-high border border-outline-variant"><span class="material-symbols-outlined text-sm">palette</span></button></div></div><button class="w-full py-3 rounded-full bg-primary text-on-primary font-label-lg shadow-md hover:bg-primary-fixed-dim hover:text-on-primary-fixed transition-all" id="save-btn">Guardar Dibujo</button></div></div>
+</main>
+<!-- Success Toast (Hidden) -->
+<div class="fixed top-32 left-1/2 -translate-x-1/2 z-[100] opacity-0 pointer-events-none transition-all duration-500 scale-90" id="save-toast">
+<div class="bg-secondary text-on-secondary px-8 py-4 rounded-xl shadow-xl flex items-center gap-3">
+<span class="material-symbols-outlined">check_circle</span>
+<span class="font-headline-sm text-headline-sm">¡Dibujo guardado!</span>
+</div>
+</div>
+<!-- Bottom Nav Bar (From JSON, contextually identifying "Lienzo" as active) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-margin-tablet pb-safe h-[96px] bg-surface-container-lowest dark:bg-surface-container-low shadow-[0_-8px_24px_rgba(58,95,148,0.08)] rounded-t-xl md:hidden">
+<div class="flex flex-col items-center justify-center text-on-surface-variant active:scale-90 transition-all duration-200">
+<span class="material-symbols-outlined">draw</span>
+<span class="font-label-lg text-label-lg">Dibujar</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-6 py-2 active:scale-90 transition-all duration-200">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">palette</span>
+<span class="font-label-lg text-label-lg">Lienzo</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant active:scale-90 transition-all duration-200">
+<span class="material-symbols-outlined">description</span>
+<span class="font-label-lg text-label-lg">Notas</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant active:scale-90 transition-all duration-200">
+<span class="material-symbols-outlined">auto_stories</span>
+<span class="font-label-lg text-label-lg">Colorear</span>
+</div>
+</nav>
+<script>
+        // Canvas Setup & Mock Drawing Logic
+        const canvas = document.getElementById('main-canvas');
+        const ctx = canvas.getContext('2d');
+        let isDrawing = false;
+        let lastX = 0;
+        let lastY = 0;
+        let currentTool = 'brush';
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            ctx.lineJoin = 'round';
+            ctx.lineCap = 'round';
+            ctx.lineWidth = 10;
+            ctx.strokeStyle = '#3a5f94';
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        function startDrawing(e) {
+            isDrawing = true;
+            [lastX, lastY] = [e.offsetX || e.touches[0].clientX, e.offsetY || e.touches[0].clientY];
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+            const x = e.offsetX || e.touches[0].clientX;
+            const y = e.offsetY || e.touches[0].clientY;
+
+            ctx.beginPath();
+            ctx.moveTo(lastX, lastY);
+            ctx.lineTo(x, y);
+
+            if (currentTool === 'eraser') {
+                ctx.globalCompositeOperation = 'destination-out';
+                ctx.lineWidth = 40;
+            } else if (currentTool === 'spray') {
+                ctx.globalCompositeOperation = 'source-over';
+                ctx.lineWidth = 1;
+                // Spray effect simulation
+                for (let i = 0; i < 20; i++) {
+                    const offset = Math.random() * 20;
+                    const angle = Math.random() * 2 * Math.PI;
+                    ctx.fillRect(x + Math.cos(angle) * offset, y + Math.sin(angle) * offset, 2, 2);
+                }
+            } else {
+                ctx.globalCompositeOperation = 'source-over';
+                ctx.lineWidth = 12;
+            }
+
+            ctx.stroke();
+            [lastX, lastY] = [x, y];
+        }
+
+        function stopDrawing() {
+            isDrawing = false;
+        }
+
+        canvas.addEventListener('mousedown', startDrawing);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', stopDrawing);
+        canvas.addEventListener('mouseout', stopDrawing);
+
+        canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            startDrawing(e);
+        });
+        canvas.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            draw(e);
+        });
+        canvas.addEventListener('touchend', stopDrawing);
+
+        // Tool Selection
+        const toolBtns = document.querySelectorAll('.tool-btn');
+        toolBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                toolBtns.forEach(b => b.classList.remove('tool-active', 'bg-primary-container', 'text-on-primary-container'));
+                btn.classList.add('tool-active', 'bg-primary-container', 'text-on-primary-container');
+                currentTool = btn.dataset.tool;
+            });
+        });
+
+        // Visibility Toggle
+        const toggleBtn = document.getElementById('toolbar-visibility-toggle');
+        const toolbar = document.getElementById('main-toolbar');
+        const toggleIcon = document.getElementById('toggle-icon');
+        const toggleText = document.getElementById('toggle-text');
+        let isVisible = true;
+
+        toggleBtn.addEventListener('click', () => {
+            isVisible = !isVisible;
+            if (isVisible) {
+                toolbar.style.transform = 'translate(-50%, 0)';
+                toolbar.style.opacity = '1';
+                toggleIcon.innerText = 'expand_more';
+                toggleText.innerText = 'Ocultar Herramientas';
+            } else {
+                toolbar.style.transform = 'translate(-50%, 150%)';
+                toolbar.style.opacity = '0';
+                toggleIcon.innerText = 'expand_less';
+                toggleText.innerText = 'Mostrar Herramientas';
+            }
+        });
+
+        // Save Interaction
+        const saveBtn = document.getElementById('save-btn');
+        const toast = document.getElementById('save-toast');
+
+        saveBtn.addEventListener('click', () => {
+            toast.style.opacity = '1';
+            toast.style.transform = 'translate(-50%, 0) scale(1)';
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translate(-50%, 0) scale(0.9)';
+            }, 2500);
+        });
+
+        // Simple Undo/Redo visual feedback
+        const undoBtn = document.getElementById('undo-btn');
+        const redoBtn = document.getElementById('redo-btn');
+        [undoBtn, redoBtn].forEach(btn => {
+            btn.addEventListener('click', () => {
+                btn.classList.add('bg-secondary-container/50');
+                setTimeout(() => btn.classList.remove('bg-secondary-container/50'), 200);
+            });
+        });
+    </script>
+
+
+</body></html>
+
+<!-- Lienzo Libre -->
+<!DOCTYPE html><html class="light" lang="es"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&amp;family=Nunito+Sans:wght@400;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-container": "#b2f2bb",
+                        "on-secondary-fixed": "#00210b",
+                        "secondary": "#2f6a3f",
+                        "on-surface": "#1b1c1c",
+                        "outline": "#737780",
+                        "inverse-primary": "#a7c8ff",
+                        "background": "#fbf9f8",
+                        "primary-fixed-dim": "#a7c8ff",
+                        "surface-dim": "#dbd9d9",
+                        "tertiary-container": "#eeb3c2",
+                        "inverse-on-surface": "#f2f0f0",
+                        "surface-container-highest": "#e4e2e2",
+                        "on-surface-variant": "#43474f",
+                        "on-tertiary-fixed-variant": "#653a46",
+                        "surface-bright": "#fbf9f8",
+                        "on-primary-container": "#2a5084",
+                        "primary-fixed": "#d5e3ff",
+                        "secondary-fixed": "#b2f2bb",
+                        "surface-variant": "#e4e2e2",
+                        "on-error": "#ffffff",
+                        "surface-container-low": "#f5f3f3",
+                        "surface-container-high": "#eae8e7",
+                        "error-container": "#ffdad6",
+                        "on-primary-fixed-variant": "#1f477a",
+                        "on-tertiary-fixed": "#32101b",
+                        "surface-container": "#efeded",
+                        "surface-tint": "#3a5f94",
+                        "on-secondary-fixed-variant": "#145129",
+                        "on-secondary": "#ffffff",
+                        "outline-variant": "#c3c6d1",
+                        "inverse-surface": "#303030",
+                        "on-background": "#1b1c1c",
+                        "primary-container": "#a0c4ff",
+                        "on-primary": "#ffffff",
+                        "on-tertiary-container": "#70434f",
+                        "secondary-fixed-dim": "#96d5a0",
+                        "on-tertiary": "#ffffff",
+                        "tertiary": "#80515e",
+                        "tertiary-fixed": "#ffd9e1",
+                        "primary": "#3a5f94",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed-dim": "#f2b7c5",
+                        "on-secondary-container": "#357044",
+                        "surface": "#fbf9f8",
+                        "on-primary-fixed": "#001b3b",
+                        "error": "#ba1a1a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-tablet": "32px",
+                        "touch-target-min": "56px",
+                        "margin-desktop": "48px",
+                        "unit": "8px",
+                        "gutter": "24px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Nunito Sans"],
+                        "headline-md": ["Quicksand"],
+                        "headline-lg": ["Quicksand"],
+                        "label-lg": ["Nunito Sans"],
+                        "headline-xl-mobile": ["Quicksand"],
+                        "headline-sm": ["Quicksand"],
+                        "body-md": ["Nunito Sans"],
+                        "headline-xl": ["Quicksand"],
+                        "headline-lg-mobile": ["Quicksand"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                        "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "700"}],
+                        "headline-xl-mobile": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                        "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-xl": ["40px", {"lineHeight": "48px", "fontWeight": "700"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            overscroll-behavior-y: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .canvas-area {
+            background-image: radial-gradient(#d1d5db 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+        .color-bubble:active {
+            transform: scale(0.85);
+        }
+        .card-shadow {
+            box-shadow: 0 4px 12px rgba(58, 95, 148, 0.12);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md overflow-x-hidden">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex items-center px-margin-mobile md:px-margin-tablet h-[88px] bg-surface dark:bg-surface-dim shadow-[0_4px_12px_rgba(58,95,148,0.12)]">
+<button class="w-touch-target-min h-touch-target-min flex items-center justify-center text-primary dark:text-primary-fixed active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-[32px]">arrow_back</span>
+</button>
+<h1 class="ml-4 font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-primary dark:text-primary-fixed tracking-tight">CreativaKids</h1>
+<div class="flex-1"></div>
+<button class="w-touch-target-min h-touch-target-min flex items-center justify-center text-primary dark:text-primary-fixed active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-[32px]">home</span>
+</button>
+</header>
+<main class="pt-[88px] pb-[120px] min-h-screen px-margin-mobile md:px-margin-tablet max-w-6xl mx-auto">
+<!-- Selection State (Initially Hidden via JS for demo flow) -->
+<div class="py-unit" id="catalog-view">
+<header class="mb-gutter">
+<h2 class="font-headline-md text-headline-md text-on-surface">¿Qué quieres colorear hoy?</h2>
+<p class="text-body-lg text-on-surface-variant">Elige un dibujo para empezar tu obra de arte.</p>
+</header>
+<!-- Bento-style Catalog Grid -->
+<div class="grid grid-cols-2 md:grid-cols-3 gap-gutter">
+<!-- Cat Card -->
+<button class="group relative bg-surface-container-lowest rounded-lg overflow-hidden border-2 border-transparent hover:border-primary transition-all duration-300 card-shadow aspect-square flex flex-col active:scale-95" onclick="selectDrawing('cat')">
+<div class="flex-1 p-6 flex items-center justify-center">
+<img class="w-full h-full object-contain grayscale opacity-80 group-hover:opacity-100 transition-opacity" data-alt="A clean, minimalist black and white line art drawing of a cute sitting cat with large expressive eyes and a tiny bow tie. The lines are thick and friendly, designed for children to color easily. The background is pure white, creating a high-contrast coloring book aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuASz1XrCmnwTHZAzXIKpOR1SYNuG4btoiqJHTAO34NLJpQq4m3ChzBcYSAtN9EeQ4WhbknkNjijfVBHXbj6XotMnqllDps6iqF8cwP43C5cv1WIYOfRr5gvVLhtwtw6Wemzj5hD0NYfOYssl5KoRX2XtXSDyUUi7xgLHNI6DHW2BDh17naX2SfTpQXFRrtfQDQlueNCye55f_jF-xDbirmnhNzL46meZMO60wiRhfPkqK_VDdmIjoh1IwwHIfLtD0tHy7H4_R8AJDI">
+</div>
+<div class="bg-surface-container-low py-4 text-center">
+<span class="font-label-lg text-label-lg uppercase tracking-wider text-primary">Lindo Gatito</span>
+</div>
+</button>
+<!-- Flower Card -->
+<button class="group relative bg-surface-container-lowest rounded-lg overflow-hidden border-2 border-transparent hover:border-primary transition-all duration-300 card-shadow aspect-square flex flex-col active:scale-95">
+<div class="flex-1 p-6 flex items-center justify-center">
+<img class="w-full h-full object-contain grayscale opacity-80 group-hover:opacity-100 transition-opacity" data-alt="A bold black and white outline drawing of a large, happy sunflower with a smiling face in the center. The petals are rounded and large, perfect for soft pastel colors. The style is playful and tactile, resembling a high-quality preschool coloring page with thick, smooth strokes." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBn4htTMBIl1C1KZbyueAEN9_ZA63hBCZThhfuleNuYfnw5rcFzVAnKFI_QY2USl0J-VFkgBB1Lk5d_g1n2HiScP4RE3yUGrZk5XdkeYosSrm4VnhY5p_AZMhDxtj82JT-V84oxSCrEUnHtoT8NeJ4FP-xFREWq0YzPM3l5l1TDIEyjSqzFLgnuGlnHZSSuTSn8Xy-v7X6TE4EA5EUemspt5fxnbz04rxAaMOrVn8Ks7Qe8fKzTvBaHY-c6LMavOPOX7c-OX_0efWY">
+</div>
+<div class="bg-surface-container-low py-4 text-center">
+<span class="font-label-lg text-label-lg uppercase tracking-wider text-primary">Girasol Feliz</span>
+</div>
+</button>
+<!-- Robot Card -->
+<button class="group relative bg-surface-container-lowest rounded-lg overflow-hidden border-2 border-transparent hover:border-primary transition-all duration-300 card-shadow aspect-square flex flex-col active:scale-95">
+<div class="flex-1 p-6 flex items-center justify-center">
+<img class="w-full h-full object-contain grayscale opacity-80 group-hover:opacity-100 transition-opacity" data-alt="A friendly, chunky toy robot drawing in black and white lines. It has rounded edges, square eyes, and several large buttons on its chest plate. The design is simple and modern, following the soft-ui aesthetic for kids, with no complex shading, just clean paths ready for color." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAb4GB0CSZPFvlm67TPWdNx7lapX4EGkLZMSz8p0dyN_6L1GRkHWATge09Ixl1_oxXaBQPl0BQQR7G7Xu1b1ZDQg1oabsiiA0ysVeHDo11arVJ10gdMfqZIJ3FeoUvZ6pXQAwrUxXnaM3klBDhAjrT-EFRRioIi_61lnF4moNU60vATSBLmdTKs0iRUn_I6mudX5j1LIMrtr7668OxmXbUgCg18fojvlWu-ZTf-G5RMO2OaNXWRVuBc6CKFQvGOdpJFWZzoSXbV7Is">
+</div>
+<div class="bg-surface-container-low py-4 text-center">
+<span class="font-label-lg text-label-lg uppercase tracking-wider text-primary">Robot Amigo</span>
+</div>
+</button>
+</div>
+</div>
+<!-- Coloring Canvas View (Hidden by default) -->
+<div class="hidden py-unit animate-in fade-in slide-in-from-bottom-4 duration-500" id="canvas-view">
+<div class="flex items-center justify-between mb-unit">
+<button class="flex items-center gap-2 text-primary font-bold active:scale-95 transition-all" onclick="showCatalog()">
+<span class="material-symbols-outlined">chevron_left</span>
+<span class="">Volver al catálogo</span>
+</button>
+<div class="flex gap-4">
+<button class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface-variant active:scale-90 transition-all">
+<span class="material-symbols-outlined">undo</span>
+</button>
+<button class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface-variant active:scale-90 transition-all">
+<span class="material-symbols-outlined">delete</span>
+</button>
+</div>
+</div>
+<!-- The Large Drawing Area -->
+<div class="relative w-full aspect-[4/5] md:aspect-video bg-white rounded-xl border-4 border-surface-container-high card-shadow overflow-hidden canvas-area flex items-center justify-center p-gutter">
+<img class="w-full h-full object-contain" data-alt="A large, detailed black and white line art of a friendly cat filling the frame. The cat has oversized paws and a long tail. The background is a very light gray grid pattern. The mood is calm and inviting, ready for creative digital coloring with a child-friendly interface aesthetic." id="active-drawing" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCH3oJS8GBZhsfFWHRCM-Vg84pO5JCEEro1ZkhhXg7Z-xehS0mV3eeIlSzRuhNP9GdgDuYb2SOHOGvuSQa67hc5rmlvZBzzM-095BKABloGt4fXwzaJWilzbMroDsVMrmRfH3fAR7c80WSpqdbthCU87AVcwcVoSRF2u9N3qQL-2FXofCIDo6DWh1tZz4kUA--GFFlhC0V1zOlgN77OWbjrquAPPebZgS2RK3lbXVuuQ5afG0svXcEHaxdtD9affn1u9qKza7s95g4">
+</div>
+<!-- Color Palette -->
+<div class="mt-gutter flex flex-wrap justify-center gap-4 px-unit">
+<!-- 10 Pastel Colors -->
+<button class="color-bubble w-[56px] h-[56px] rounded-full ring-4 ring-white shadow-md transition-all border-4 border-transparent" style="background-color: #FFB3BA;"></button>
+<button class="color-bubble w-[56px] h-[56px] rounded-full ring-4 ring-white shadow-md transition-all border-4 border-primary" style="background-color: #FFDFBA;"></button>
+<button class="color-bubble w-[56px] h-[56px] rounded-full ring-4 ring-white shadow-md transition-all border-4 border-transparent" style="background-color: #FFFFBA;"></button>
+<button class="color-bubble w-[56px] h-[56px] rounded-full ring-4 ring-white shadow-md transition-all border-4 border-transparent" style="background-color: #BAFFC9;"></button>
+<button class="color-bubble w-[56px] h-[56px] rounded-full ring-4 ring-white shadow-md transition-all border-4 border-transparent" style="background-color: #BAE1FF;"></button>
+<button class="color-bubble w-[56px] h-[56px] rounded-full ring-4 ring-white shadow-md transition-all border-4 border-transparent" style="background-color: #D4BAFF;"></button>
+<button class="color-bubble w-[56px] h-[56px] rounded-full ring-4 ring-white shadow-md transition-all border-4 border-transparent" style="background-color: #FFBAF2;"></button>
+<button class="color-bubble w-[56px] h-[56px] rounded-full ring-4 ring-white shadow-md transition-all border-4 border-transparent" style="background-color: #A2E1DB;"></button>
+<button class="color-bubble w-[56px] h-[56px] rounded-full ring-4 ring-white shadow-md transition-all border-4 border-transparent" style="background-color: #F0E4D7;"></button>
+<button class="color-bubble w-[56px] h-[56px] rounded-full ring-4 ring-white shadow-md transition-all border-4 border-transparent" style="background-color: #D6D6D6;"></button>
+</div>
+<div class="fixed bottom-[112px] left-1/2 -translate-x-1/2 z-50 w-[90%] max-w-md bg-surface-container-lowest rounded-xl shadow-[0_8px_24px_rgba(58,95,148,0.24)] p-4 flex flex-col gap-4 animate-in slide-in-from-bottom-4 duration-500">
+  <div class="flex items-center justify-between gap-4">
+    <div class="flex bg-surface-container-low rounded-full p-1">
+      <button class="w-10 h-10 rounded-full bg-primary text-on-primary flex items-center justify-center active:scale-90 transition-all">
+        <span class="material-symbols-outlined">edit</span>
+      </button>
+      <button class="w-10 h-10 rounded-full text-on-surface-variant flex items-center justify-center active:scale-90 transition-all">
+        <span class="material-symbols-outlined">brush</span>
+      </button>
+      <button class="w-10 h-10 rounded-full text-on-surface-variant flex items-center justify-center active:scale-90 transition-all">
+        <span class="material-symbols-outlined">format_paint</span>
+      </button>
+    </div>
+    <div class="flex-1 flex items-center gap-3 px-2">
+      <span class="material-symbols-outlined text-on-surface-variant">line_weight</span>
+      <input type="range" class="flex-1 h-2 bg-surface-container-high rounded-lg appearance-none cursor-pointer accent-primary" min="1" max="20" value="5">
+    </div>
+  </div>
+  <div class="flex items-center gap-2 overflow-x-auto pb-1">
+    <button class="w-8 h-8 rounded-full flex-shrink-0 border-2 border-primary" style="background-color: #FFB3BA;"></button>
+    <button class="w-8 h-8 rounded-full flex-shrink-0" style="background-color: #FFDFBA;"></button>
+    <button class="w-8 h-8 rounded-full flex-shrink-0" style="background-color: #FFFFBA;"></button>
+    <button class="w-8 h-8 rounded-full flex-shrink-0" style="background-color: #BAFFC9;"></button>
+    <button class="w-8 h-8 rounded-full flex-shrink-0" style="background-color: #BAE1FF;"></button>
+    <button class="w-8 h-8 rounded-full flex-shrink-0" style="background-color: #D4BAFF;"></button>
+    <button class="w-8 h-8 rounded-full flex-shrink-0 bg-gradient-to-tr from-red-400 via-green-400 to-blue-400 flex items-center justify-center">
+      <span class="material-symbols-outlined text-white text-sm">add</span>
+    </button>
+  </div>
+</div></div>
+</main>
+<!-- FAB: Floating Action Button (Only in Canvas Mode) -->
+<div class="fixed bottom-[112px] right-margin-mobile md:right-margin-tablet z-40 hidden" id="fab-container">
+<button class="w-[72px] h-[72px] rounded-full bg-primary text-on-primary flex items-center justify-center shadow-[0_8px_24px_rgba(58,95,148,0.24)] hover:scale-105 active:scale-90 transition-all duration-300">
+<span class="material-symbols-outlined text-[36px]" style="font-variation-settings: 'FILL' 1;">format_paint</span>
+</button>
+</div>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-margin-tablet pb-safe h-[96px] bg-surface-container-lowest dark:bg-surface-container-low shadow-[0_-8px_24px_rgba(58,95,148,0.08)] rounded-t-xl">
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/50 transition-all duration-200 active:scale-90">
+<span class="material-symbols-outlined">draw</span>
+<span class="font-label-lg text-label-lg">Dibujar</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/50 transition-all duration-200 active:scale-90">
+<span class="material-symbols-outlined">palette</span>
+<span class="font-label-lg text-label-lg">Lienzo</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/50 transition-all duration-200 active:scale-90">
+<span class="material-symbols-outlined">description</span>
+<span class="font-label-lg text-label-lg">Notas</span>
+</button>
+<!-- ACTIVE TAB -->
+<button class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-6 py-2 transition-all duration-200 active:scale-90">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">auto_stories</span>
+<span class="font-label-lg text-label-lg">Colorear</span>
+</button>
+</nav>
+<script>
+        function selectDrawing(id) {
+            document.getElementById('catalog-view').classList.add('hidden');
+            document.getElementById('canvas-view').classList.remove('hidden');
+            document.getElementById('fab-container').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showCatalog() {
+            document.getElementById('canvas-view').classList.add('hidden');
+            document.getElementById('catalog-view').classList.remove('hidden');
+            document.getElementById('fab-container').classList.add('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Palette color selection logic
+        const bubbles = document.querySelectorAll('.color-bubble');
+        bubbles.forEach(bubble => {
+            bubble.addEventListener('click', () => {
+                bubbles.forEach(b => b.style.borderColor = 'transparent');
+                bubble.style.borderColor = '#3a5f94'; // theme primary color
+            });
+        });
+    </script>
+
+
+</body></html>

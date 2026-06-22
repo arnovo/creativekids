@@ -1,0 +1,25 @@
+# ─── Environment ───
+.env
+
+# ─── Frontend ───
+frontend/node_modules/
+frontend/dist/
+
+# ─── Backend ───
+backend/vendor/
+backend/.env
+backend/storage/framework/cache/data/*
+backend/storage/framework/sessions/*
+backend/storage/framework/views/*
+backend/storage/logs/*
+backend/bootstrap/cache/*
+
+# ─── IDE ───
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# ─── Docker ───
+docker/volumes/
