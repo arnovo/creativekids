@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+  <!-- Antenas -->
+  <path d="M 100,50 C 80,30 60,30 70,20" fill="none" stroke="black" stroke-width="4" stroke-linecap="round" />
+  <circle cx="70" cy="20" r="3" fill="black" />
+  <path d="M 100,50 C 120,30 140,30 130,20" fill="none" stroke="black" stroke-width="4" stroke-linecap="round" />
+  <circle cx="130" cy="20" r="3" fill="black" />
+
+  <!-- Cuerpo central -->
+  <ellipse cx="100" cy="90" rx="10" ry="40" fill="none" stroke="black" stroke-width="6" />
+  <!-- Rayas del cuerpo -->
+  <line x1="91" y1="70" x2="109" y2="70" stroke="black" stroke-width="3" />
+  <line x1="90" y1="90" x2="110" y2="90" stroke="black" stroke-width="3" />
+  <line x1="91" y1="110" x2="109" y2="110" stroke="black" stroke-width="3" />
+
+  <!-- Alas Izquierdas -->
+  <path d="M 90,70 C 20,20 10,80 88,95" fill="none" stroke="black" stroke-width="6" stroke-linejoin="round" />
+  <path d="M 88,95 C 10,120 40,180 92,120" fill="none" stroke="black" stroke-width="6" stroke-linejoin="round" />
+  
+  <!-- Alas Derechas -->
+  <path d="M 110,70 C 180,20 190,80 112,95" fill="none" stroke="black" stroke-width="6" stroke-linejoin="round" />
+  <path d="M 112,95 C 190,120 160,180 108,120" fill="none" stroke="black" stroke-width="6" stroke-linejoin="round" />
+
+  <!-- Detalles de las Alas -->
+  <circle cx="50" cy="65" r="10" fill="none" stroke="black" stroke-width="4" />
+  <circle cx="150" cy="65" r="10" fill="none" stroke="black" stroke-width="4" />
+  <circle cx="60" cy="130" r="8" fill="none" stroke="black" stroke-width="4" />
+  <circle cx="140" cy="130" r="8" fill="none" stroke="black" stroke-width="4" />
+</svg>
