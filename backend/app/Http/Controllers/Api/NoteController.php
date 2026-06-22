@@ -32,6 +32,7 @@ class NoteController extends Controller
             'category_id' => 'nullable|exists:categories,id',
             'color'       => 'nullable|string|max:7',
             'is_pinned'   => 'boolean',
+            'text_style'  => 'nullable|array',
         ]);
 
         $note = Note::create($validated);
@@ -52,6 +53,7 @@ class NoteController extends Controller
             'category_id' => 'nullable|exists:categories,id',
             'color'       => 'nullable|string|max:7',
             'is_pinned'   => 'boolean',
+            'text_style'  => 'nullable|array',
         ]);
 
         $note->update($validated);

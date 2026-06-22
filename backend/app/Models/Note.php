@@ -17,13 +17,15 @@ class Note extends Model
         'category_id',
         'color',
         'is_pinned',
+        'text_style',
     ];
 
     protected function casts(): array
     {
         return [
-            'strokes'   => 'array',
-            'is_pinned' => 'boolean',
+            'strokes'    => 'array',
+            'is_pinned'  => 'boolean',
+            'text_style' => 'array',
         ];
     }
 

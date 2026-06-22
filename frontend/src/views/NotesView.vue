@@ -72,7 +72,15 @@
             <v-icon v-if="note.is_pinned" color="orange" size="20">mdi-pin</v-icon>
           </div>
           
-          <p class="text-body-2 mb-4 text-truncate-3" style="color: rgba(0,0,0,0.6); white-space: pre-wrap;">
+          <p 
+            class="text-body-2 mb-4 text-truncate-3" 
+            style="color: rgba(0,0,0,0.6); white-space: pre-wrap;"
+            :class="{
+              'text-bold': note.text_style?.includes('bold'),
+              'text-italic': note.text_style ? note.text_style.includes('italic') : true,
+              'text-underline': note.text_style?.includes('underline')
+            }"
+          >
             {{ note.content }}
           </p>
 
@@ -148,6 +156,11 @@
             hide-details
             :readonly="isDrawingMode"
             class="pa-4 text-layer text-body-2"
+            :class="{
+              'text-bold': activeTextStyles.includes('bold'),
+              'text-italic': activeTextStyles.includes('italic'),
+              'text-underline': activeTextStyles.includes('underline')
+            }"
             style="position: absolute; width: 100%; height: 100%; z-index: 1;"
             :style="{ pointerEvents: isDrawingMode ? 'none' : 'auto' }"
           ></v-textarea>
@@ -176,12 +189,28 @@
                 density="compact"
                 class="rounded-pill mr-2 bg-grey-lighten-3"
               >
-                <v-btn :value="false" prepend-icon="mdi-keyboard-outline" class="font-weight-bold rounded-pill text-caption px-4">
+                <v-btn :value="false" prepend-icon="mdi-keyboard-outline" class="font-weight-bold rounded-pill text-caption px-4" title="Escribir con teclado">
                   Teclado
                 </v-btn>
-                <v-btn :value="true" prepend-icon="mdi-pen" class="font-weight-bold rounded-pill text-caption px-4">
+                <v-btn :value="true" prepend-icon="mdi-pen" class="font-weight-bold rounded-pill text-caption px-4" title="Escribir a mano">
                   Lápiz
                 </v-btn>
+              </v-btn-toggle>
+              
+              <!-- Text Styling Buttons (only visible in Keyboard mode) -->
+              <v-btn-toggle
+                v-if="!isDrawingMode"
+                v-model="activeTextStyles"
+                multiple
+                color="primary"
+                variant="tonal"
+                density="compact"
+                class="rounded-pill mr-2 bg-grey-lighten-4"
+                @update:model-value="onTextStyleChange"
+              >
+                <v-btn value="bold" icon="mdi-format-bold" title="Negrita" size="28" class="rounded-pill"></v-btn>
+                <v-btn value="italic" icon="mdi-format-italic" title="Cursiva" size="28" class="rounded-pill"></v-btn>
+                <v-btn value="underline" icon="mdi-format-underline" title="Subrayado" size="28" class="rounded-pill"></v-btn>
               </v-btn-toggle>
               
               <v-divider vertical class="mx-1"></v-divider>
@@ -285,6 +314,9 @@ const isSaving = ref(false)
 const isDrawingMode = ref(false)
 const noteCanvas = ref(null)
 
+// Text style state (default is ['italic'] for cursive)
+const activeTextStyles = ref(JSON.parse(localStorage.getItem('creativakids_text_style')) || ['italic'])
+
 // Category State
 const categoryDialog = ref(false)
 const isCreatingCat = ref(false)
@@ -300,7 +332,8 @@ const editingNote = reactive({
   strokes: null,
   category_id: null,
   color: '#ffffff',
-  is_pinned: false
+  is_pinned: false,
+  text_style: null
 })
 
 const brushSettings = reactive({ color: '#1A237E', width: 3, tool: 'brush' }) // Azul escolar fino
@@ -326,6 +359,9 @@ function openEditor(note = null) {
     editingNote.category_id = note.category_id
     editingNote.color = note.color
     editingNote.is_pinned = note.is_pinned
+    
+    // Load note's specific text style (default to italic if null)
+    activeTextStyles.value = note.text_style || ['italic']
   } else {
     editingNote.id = null
     editingNote.title = ''
@@ -334,6 +370,9 @@ function openEditor(note = null) {
     editingNote.category_id = activeCategory.value
     editingNote.color = '#ffffff'
     editingNote.is_pinned = false
+    
+    // For new notes, inherit last used style from localStorage
+    activeTextStyles.value = JSON.parse(localStorage.getItem('creativakids_text_style')) || ['italic']
   }
   isDrawingMode.value = false
   editorDialog.value = true
@@ -349,11 +388,18 @@ async function saveNote() {
       editingNote.strokes = strokesJson?.objects?.length > 0 ? strokesJson : null
     }
 
+    // Save active text styles
+    editingNote.text_style = activeTextStyles.value
+
     await notesStore.saveNote({ ...editingNote })
     editorDialog.value = false
   } finally {
     isSaving.value = false
   }
+}
+
+function onTextStyleChange(val) {
+  localStorage.setItem('creativakids_text_style', JSON.stringify(val))
 }
 
 async function deleteNote() {
@@ -427,6 +473,17 @@ function getCategoryIcon(id) { return getCategoryInfo(id).icon || 'folder' }
   padding-left: 70px !important; /* Move text past vertical pink margin */
   padding-top: 6px !important; /* Fine tune first line offset */
   padding-bottom: 80px !important;
+}
+
+/* Text styling modifiers */
+.text-bold, .text-bold :deep(textarea) {
+  font-weight: bold !important;
+}
+.text-italic, .text-italic :deep(textarea) {
+  font-style: italic !important;
+}
+.text-underline, .text-underline :deep(textarea) {
+  text-decoration: underline !important;
 }
 
 .toolbar-container {
