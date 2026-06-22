@@ -150,7 +150,9 @@ function updateBrush() {
     
     brush.color = color;
     brush.width = props.tool === 'marker' ? props.brushWidth * 2 : props.brushWidth;
-    brush.decimate = 2
+    brush.decimate = 1.5 // Slightly more detail for handwriting curves
+    brush.strokeLineCap = 'round'
+    brush.strokeLineJoin = 'round'
     fabricCanvas.value.freeDrawingBrush = brush
   }
 }

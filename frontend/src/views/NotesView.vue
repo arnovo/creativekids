@@ -137,21 +137,23 @@
         </v-toolbar>
 
         <!-- Modal Content (Hybrid Text + Canvas) -->
-        <div class="fill-height position-relative overflow-hidden">
+        <div class="fill-height position-relative overflow-hidden notebook-container">
           
           <!-- Text Layer (Underneath Canvas) -->
           <v-textarea
             v-model="editingNote.content"
-            placeholder="Escribe tus ideas aquí..."
+            placeholder="Escribe tus ideas aquí con el teclado..."
             variant="plain"
             auto-grow
             hide-details
-            class="pa-6 text-layer text-body-1"
+            :readonly="isDrawingMode"
+            class="pa-4 text-layer text-body-2"
             style="position: absolute; width: 100%; height: 100%; z-index: 1;"
+            :style="{ pointerEvents: isDrawingMode ? 'none' : 'auto' }"
           ></v-textarea>
 
           <!-- Drawing Layer (Transparent over Text) -->
-          <div style="position: absolute; width: 100%; height: 100%; z-index: 2; pointer-events: none;" :style="{ pointerEvents: isDrawingMode ? 'auto' : 'none' }">
+          <div style="position: absolute; width: 100%; height: 100%; z-index: 2;" :style="{ pointerEvents: isDrawingMode ? 'auto' : 'none' }">
             <DrawingCanvas
               ref="noteCanvas"
               :brush-color="brushSettings.color"
@@ -163,12 +165,25 @@
           </div>
 
           <!-- Color/Category Picker Bottom Bar -->
-          <v-sheet class="position-absolute w-100 pa-4 d-flex align-center justify-space-between bg-white border-t" style="bottom: 0; z-index: 10; padding-bottom: calc(16px + env(safe-area-inset-bottom)) !important;">
+          <v-sheet class="position-absolute w-100 pa-3 d-flex align-center justify-space-between bg-white border-t" style="bottom: 0; z-index: 10; padding-bottom: calc(12px + env(safe-area-inset-bottom)) !important;">
             
             <div class="d-flex align-center gap-2">
-              <v-btn icon size="small" variant="text" @click="isDrawingMode = !isDrawingMode" :color="isDrawingMode ? 'primary' : 'default'">
-                <v-icon>mdi-draw</v-icon>
-              </v-btn>
+              <v-btn-toggle
+                v-model="isDrawingMode"
+                mandatory
+                color="primary"
+                variant="flat"
+                density="compact"
+                class="rounded-pill mr-2 bg-grey-lighten-3"
+              >
+                <v-btn :value="false" prepend-icon="mdi-keyboard-outline" class="font-weight-bold rounded-pill text-caption px-4">
+                  Teclado
+                </v-btn>
+                <v-btn :value="true" prepend-icon="mdi-pen" class="font-weight-bold rounded-pill text-caption px-4">
+                  Lápiz
+                </v-btn>
+              </v-btn-toggle>
+              
               <v-divider vertical class="mx-1"></v-divider>
               
               <!-- Background Color Selection -->
@@ -176,12 +191,12 @@
                 v-for="color in bgColors"
                 :key="color"
                 icon
-                size="x-small"
+                size="24"
                 :color="color"
                 class="border"
                 @click="editingNote.color = color"
               >
-                <v-icon v-if="editingNote.color === color" size="12">mdi-check</v-icon>
+                <v-icon v-if="editingNote.color === color" size="10">mdi-check</v-icon>
               </v-btn>
             </div>
 
@@ -194,7 +209,8 @@
               variant="outlined"
               density="compact"
               hide-details
-              style="max-width: 150px;"
+              style="max-width: 130px;"
+              class="text-caption"
             ></v-select>
 
           </v-sheet>
@@ -218,35 +234,35 @@
     </v-dialog>
 
     <!-- New Category Dialog -->
-    <v-dialog v-model="categoryDialog" max-width="400">
+    <v-dialog v-model="categoryDialog" max-width="360">
       <v-card class="rounded-xl pa-2">
-        <v-card-title class="font-weight-bold">Nueva Categoría</v-card-title>
-        <v-card-text>
+        <v-card-title class="font-weight-bold text-subtitle-1">Nueva Categoría</v-card-title>
+        <v-card-text class="pa-2">
           <v-text-field
             v-model="newCategory.name"
             label="Nombre"
             variant="outlined"
             density="compact"
-            class="mb-4"
+            class="mb-3"
             hide-details
           ></v-text-field>
-          <div class="text-body-2 mb-2 font-weight-medium">Color:</div>
+          <div class="text-caption mb-2 font-weight-medium">Color:</div>
           <div class="d-flex gap-2">
             <v-btn
               v-for="c in catColors" :key="c"
-              icon size="small" :color="c"
+              icon size="x-small" :color="c"
               elevation="0"
               class="border"
               @click="newCategory.color = c"
             >
-              <v-icon v-if="newCategory.color === c">mdi-check</v-icon>
+              <v-icon v-if="newCategory.color === c" size="12">mdi-check</v-icon>
             </v-btn>
           </div>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn variant="text" @click="categoryDialog = false">Cancelar</v-btn>
-          <v-btn color="primary" variant="flat" class="rounded-pill px-4" @click="createCategory" :loading="isCreatingCat" :disabled="!newCategory.name">Crear</v-btn>
+          <v-btn variant="text" size="small" @click="categoryDialog = false">Cancelar</v-btn>
+          <v-btn color="primary" variant="flat" size="small" class="rounded-pill px-4" @click="createCategory" :loading="isCreatingCat" :disabled="!newCategory.name">Crear</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -287,7 +303,7 @@ const editingNote = reactive({
   is_pinned: false
 })
 
-const brushSettings = reactive({ color: '#FF5252', width: 5, tool: 'brush' })
+const brushSettings = reactive({ color: '#1A237E', width: 3, tool: 'brush' }) // Azul escolar fino
 
 // Lifecycle
 onMounted(async () => {
@@ -374,7 +390,7 @@ function getCategoryIcon(id) { return getCategoryInfo(id).icon || 'folder' }
 .gap-2 { gap: 8px; }
 
 .note-card {
-  min-height: 160px;
+  min-height: 120px;
   display: flex;
   flex-direction: column;
   transition: transform 0.2s, box-shadow 0.2s;
@@ -392,17 +408,30 @@ function getCategoryIcon(id) { return getCategoryInfo(id).icon || 'folder' }
   overflow: hidden;
 }
 
-/* Make vuetify textarea feel like a physical notepad */
+/* Notebook school lines and pink margin - scaled for tablets */
+.notebook-container {
+  background-color: #fdfbf7 !important;
+  background-image: 
+    linear-gradient(90deg, transparent 59px, #ffa6a6 59px, #ffa6a6 61px, transparent 61px), 
+    linear-gradient(#e4e1db 1px, transparent 1px);
+  background-size: 100% 100%, 100% 24px;
+  background-position: 0 0;
+}
+
+/* Align text to sit perfectly on top of notebook lines */
 .text-layer :deep(textarea) {
-  line-height: 1.6;
-  font-family: 'Nunito Sans', sans-serif;
+  line-height: 24px !important;
+  font-size: 14px !important;
+  font-family: 'Nunito', 'Nunito Sans', sans-serif;
   color: rgba(0,0,0,0.8);
-  padding-bottom: 80px !important; /* space for bottom bar */
+  padding-left: 70px !important; /* Move text past vertical pink margin */
+  padding-top: 6px !important; /* Fine tune first line offset */
+  padding-bottom: 80px !important;
 }
 
 .toolbar-container {
   position: absolute;
-  top: 16px;
+  top: 12px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 10;
