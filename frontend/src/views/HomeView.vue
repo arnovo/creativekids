@@ -136,6 +136,41 @@
           </div>
         </v-card>
       </v-col>
+      <!-- Tarjeta 5: Matemáticas (Pastel Morado) -->
+      <v-col cols="12">
+        <v-card
+          class="bento-card pa-8"
+          color="math-purple"
+          :min-height="200"
+          hover
+          @click="navigateTo('math')"
+        >
+          <div class="d-flex align-center fill-height position-relative" style="z-index: 1; gap: 32px;">
+            <div>
+              <div class="icon-bubble mb-4">
+                <v-icon size="40" color="deep-purple">mdi-calculator</v-icon>
+              </div>
+              <h3 class="text-h4 font-weight-bold mb-2" style="color: #4527a0;">
+                Matemáticas
+              </h3>
+              <p class="text-body-1" style="color: #5e35b1; max-width: 320px;">
+                Suma, resta, multiplica y divide. ¡Sube de nivel con cada acierto!
+              </p>
+            </div>
+
+            <div class="math-symbols-deco d-none d-md-flex">
+              <span class="math-sym" style="color: #7c4dff; font-size: 64px; font-weight: 900; opacity: 0.18; font-family: monospace;">+</span>
+              <span class="math-sym" style="color: #651fff; font-size: 64px; font-weight: 900; opacity: 0.15; font-family: monospace;">−</span>
+              <span class="math-sym" style="color: #6200ea; font-size: 64px; font-weight: 900; opacity: 0.18; font-family: monospace;">×</span>
+              <span class="math-sym" style="color: #7c4dff; font-size: 64px; font-weight: 900; opacity: 0.15; font-family: monospace;">÷</span>
+            </div>
+          </div>
+
+          <div class="bento-decor" style="right: -16px; bottom: -24px;">
+            <v-icon size="200" color="deep-purple" style="opacity: 0.07;">mdi-calculator-variant</v-icon>
+          </div>
+        </v-card>
+      </v-col>
     </v-row>
 
     <!-- FAB: Nuevo Proyecto -->
@@ -250,6 +285,14 @@ function navigateTo(module) {
 
 .fab-nuevo:hover {
   transform: scale(1.1);
+}
+
+/* ─── Math symbols decoration ───────────────────────────── */
+.math-symbols-deco {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  user-select: none;
 }
 
 /* ─── Headlines ─────────────────────────────────────────── */

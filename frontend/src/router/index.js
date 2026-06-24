@@ -50,6 +50,12 @@ const routes = [
     component: () => import('@/views/ColoringView.vue'),
     meta: { title: 'CreativaKids — Colorear', navTab: 'coloring' },
   },
+  {
+    path: '/mates',
+    name: 'math',
+    component: () => import('@/views/MathView.vue'),
+    meta: { title: 'CreativaKids — Matemáticas', navTab: 'math' },
+  },
 ]
 
 const router = createRouter({

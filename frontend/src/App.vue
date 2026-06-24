@@ -103,6 +103,11 @@
         <v-icon>mdi-book-open-variant</v-icon>
         <span class="nav-label">Colorear</span>
       </v-btn>
+
+      <v-btn value="math" @click="router.push('/mates')">
+        <v-icon>mdi-calculator</v-icon>
+        <span class="nav-label">Mates</span>
+      </v-btn>
     </v-bottom-navigation>
   </v-app>
 </template>

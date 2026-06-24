@@ -61,10 +61,11 @@ const creativaKidsTheme = {
     'on-background': '#1b1c1c',
 
     // ─── Module accent colors ─────────────
-    'draw-blue':   '#d5e3ff',
+    'draw-blue':    '#d5e3ff',
     'canvas-green': '#d3f9d8',
     'notes-yellow': '#fff4cc',
     'color-pink':   '#fce4ec',
+    'math-purple':  '#ede7f6',
   },
 }
 
