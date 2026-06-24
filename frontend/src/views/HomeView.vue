@@ -173,17 +173,6 @@
       </v-col>
     </v-row>
 
-    <!-- FAB: Nuevo Proyecto -->
-    <v-btn
-      icon
-      size="72"
-      color="primary"
-      class="fab-nuevo"
-      elevation="12"
-    >
-      <v-icon size="32">mdi-plus</v-icon>
-      <v-tooltip activator="parent" location="start">Nuevo Proyecto</v-tooltip>
-    </v-btn>
   </v-container>
 </template>
 
