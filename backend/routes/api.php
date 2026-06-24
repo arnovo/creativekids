@@ -33,19 +33,36 @@ Route::get('/health', function () {
     ]);
 });
 
-// ─── Fase 2: Rutas de módulos ───────────────────────────────
+// ─── Autenticación (Pública) ─────────────────────────────────
+use App\Http\Controllers\Api\AuthController;
+
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+
+// ─── Rutas Públicas (Lectura libre) ──────────────────────────
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\SketchController;
 use App\Http\Controllers\Api\ColoringPageController;
+
+Route::get('/categories', [CategoryController::class, 'index']);
+Route::get('/sketches', [SketchController::class, 'index']);
+Route::get('/sketches/{sketch}', [SketchController::class, 'show']);
+Route::get('/coloring-pages', [ColoringPageController::class, 'index']);
+Route::get('/coloring-pages/{coloring_page}', [ColoringPageController::class, 'show']);
+
+// ─── Rutas Protegidas (Escritura y datos personales) ─────────
 use App\Http\Controllers\Api\NoteController;
 use App\Http\Controllers\Api\FreeDrawingController;
 
-Route::apiResource('categories', CategoryController::class);
-Route::apiResource('sketches', SketchController::class);
-Route::post('sketches/{sketch}/progress', [SketchController::class, 'saveProgress']);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::get('/me', [AuthController::class, 'me']);
 
-Route::apiResource('coloring-pages', ColoringPageController::class);
-Route::post('coloring-pages/{coloring_page}/progress', [ColoringPageController::class, 'saveProgress']);
+    Route::post('/categories', [CategoryController::class, 'store']);
 
-Route::apiResource('notes', NoteController::class);
-Route::apiResource('free-drawings', FreeDrawingController::class);
+    Route::post('sketches/{sketch}/progress', [SketchController::class, 'saveProgress']);
+    Route::post('coloring-pages/{coloring_page}/progress', [ColoringPageController::class, 'saveProgress']);
+
+    Route::apiResource('notes', NoteController::class);
+    Route::apiResource('free-drawings', FreeDrawingController::class);
+});

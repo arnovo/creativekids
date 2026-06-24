@@ -2,6 +2,7 @@
   <v-app>
     <!-- Top App Bar -->
     <v-app-bar
+      v-if="!isAuthPage"
       :height="88"
       color="surface"
       flat
@@ -35,9 +36,33 @@
         <v-icon size="32">mdi-home</v-icon>
       </v-btn>
 
-      <v-avatar size="48" class="ml-2 avatar-border">
-        <v-icon size="32" color="primary">mdi-account-circle</v-icon>
-      </v-avatar>
+      <!-- Saludo personalizado del niño y botón de Salir, o botón de entrar si es invitado -->
+      <template v-if="authStore.isAuthenticated && authStore.user">
+        <span class="mr-2 text-primary font-weight-bold text-subtitle-1 d-none d-sm-inline">
+          ¡Hola, {{ authStore.user.name }}! 👋
+        </span>
+        <v-btn
+          icon
+          variant="text"
+          color="error"
+          size="x-large"
+          class="ml-1"
+          @click="handleLogout"
+          title="Cerrar sesión"
+        >
+          <v-icon size="32">mdi-logout</v-icon>
+        </v-btn>
+      </template>
+      <template v-else>
+        <v-btn
+          color="primary"
+          variant="flat"
+          class="rounded-pill font-weight-bold px-5 mr-2 elevation-2"
+          @click="router.push('/login')"
+        >
+          ¡Entrar! 🚀
+        </v-btn>
+      </template>
     </v-app-bar>
 
     <!-- Main Content -->
@@ -51,6 +76,7 @@
 
     <!-- Bottom Navigation -->
     <v-bottom-navigation
+      v-if="!isAuthPage"
       :model-value="activeTab"
       :height="96"
       color="primary"
@@ -84,14 +110,24 @@
 <script setup>
 import { computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
 
 const router = useRouter()
 const route = useRoute()
+const authStore = useAuthStore()
 
 const activeTab = computed(() => route.meta?.navTab || null)
+const isAuthPage = computed(() => route.name === 'login' || route.name === 'register')
 
 function goBack() {
   router.push('/')
+}
+
+async function handleLogout() {
+  if (confirm('¿Seguro que quieres salir de tu cuenta?')) {
+    await authStore.logout()
+    router.push('/login')
+  }
 }
 </script>
 

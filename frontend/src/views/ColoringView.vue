@@ -89,6 +89,8 @@
                 @clear="triggerClear"
                 @clear-sketch="triggerClearSketch"
                 @save="saveCurrentProgress"
+                @download="downloadDrawing"
+                @print="printDrawing"
               />
             </div>
           </div>
@@ -102,11 +104,15 @@
 
 <script setup>
 import { ref, reactive, computed, onMounted, nextTick } from 'vue'
+import { useRouter } from 'vue-router'
 import { useColoringStore } from '@/stores/coloring'
+import { useAuthStore } from '@/stores/auth'
 import DrawingCanvas from '@/components/DrawingCanvas.vue'
 import CanvasToolbar from '@/components/CanvasToolbar.vue'
 
+const router = useRouter()
 const coloringStore = useColoringStore()
+const authStore = useAuthStore()
 
 // State
 const activeCategory = ref('all')
@@ -143,10 +149,31 @@ function closePage() {
 }
 
 // Canvas Toolbar wrappers
+// Debounce helper
+function debounce(fn, delay) {
+  let timeoutId
+  return (...args) => {
+    if (timeoutId) clearTimeout(timeoutId)
+    timeoutId = setTimeout(() => {
+      fn(...args)
+    }, delay)
+  }
+}
+
+// Debounced save
+const debouncedSave = debounce(() => {
+  if (authStore.isAuthenticated && coloringStore.currentPage) {
+    saveCurrentProgress(true)
+  }
+}, 2000)
+
 function onCanvasChange() {
   if (coloringCanvas.value) {
     canUndo.value = coloringCanvas.value.canUndo()
     canRedo.value = coloringCanvas.value.canRedo()
+    
+    // Auto-save if logged in
+    debouncedSave()
   }
 }
 function triggerUndo() { if (coloringCanvas.value) coloringCanvas.value.undo() }
@@ -155,22 +182,89 @@ function triggerClear() { if (coloringCanvas.value) coloringCanvas.value.clear()
 function triggerClearSketch() { if (coloringCanvas.value) coloringCanvas.value.clearSketchLines() }
 
 const isSaving = ref(false)
-async function saveCurrentProgress() {
+async function saveCurrentProgress(isAutoSave = false) {
   if (!coloringCanvas.value || !coloringStore.currentPage) return
+
+  // Bloquear guardado en la nube para invitados
+  if (!authStore.isAuthenticated) {
+    if (!isAutoSave) {
+      alert('¡Crea tu perfil o inicia sesión para guardar tus dibujos y no perderlos! ✨')
+      router.push('/login')
+    }
+    return
+  }
+
   isSaving.value = true
   
   try {
     const strokes = coloringCanvas.value.getJsonData()
     const success = await coloringStore.saveProgress(coloringStore.currentPage.id, strokes)
-    if (success) {
+    if (success && !isAutoSave) {
       alert('¡Progreso guardado correctamente!')
-    } else {
-      alert('Hubo un error al guardar.')
     }
   } catch (e) {
     console.error(e)
   } finally {
     isSaving.value = false
+  }
+}
+
+function downloadDrawing() {
+  if (!coloringCanvas.value) return
+  const dataUrl = coloringCanvas.value.getImageDataUrl()
+  if (!dataUrl) return
+
+  const link = document.createElement('a')
+  link.download = `creativakids-coloreado-${Date.now()}.png`
+  link.href = dataUrl
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+}
+
+function printDrawing() {
+  if (!coloringCanvas.value) return
+  const dataUrl = coloringCanvas.value.getImageDataUrl()
+  if (!dataUrl) return
+
+  const windowContent = `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <title>Imprimir Dibujo — CreativaKids</title>
+        <style>
+          body {
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: #fff;
+          }
+          img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+          }
+        </style>
+      </head>
+      <body>
+        <img src="${dataUrl}" />
+        <script>
+          window.onload = function() {
+            window.print();
+            setTimeout(() => { window.close(); }, 500);
+          };
+        <\/script>
+      </body>
+    </html>
+  `
+
+  const printWin = window.open('', '', 'width=800,height=600')
+  if (printWin) {
+    printWin.document.open()
+    printWin.document.write(windowContent)
+    printWin.document.close()
   }
 }
 </script>

@@ -339,6 +339,14 @@ function clearSketchLines() {
   }
 }
 
+function getImageDataUrl() {
+  if (!fabricCanvas.value) return null
+  return fabricCanvas.value.toDataURL({
+    format: 'png',
+    quality: 1
+  })
+}
+
 defineExpose({
   clear,
   clearSketchLines,
@@ -346,6 +354,7 @@ defineExpose({
   redo,
   getJsonData,
   getSvgData,
+  getImageDataUrl,
   setTraceImage,
   toggleTraceVisibility,
   loadSvg,

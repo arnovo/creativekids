@@ -108,6 +108,20 @@
         <v-tooltip activator="parent" location="top">Guardar Progreso</v-tooltip>
         <v-icon size="18">mdi-content-save</v-icon>
       </v-btn>
+
+      <v-divider vertical class="mx-1 my-1"></v-divider>
+
+      <!-- Download Drawing -->
+      <v-btn icon size="x-small" variant="text" color="primary" @click="$emit('download')">
+        <v-tooltip activator="parent" location="top">Descargar dibujo como imagen</v-tooltip>
+        <v-icon size="18">mdi-download</v-icon>
+      </v-btn>
+
+      <!-- Print Drawing -->
+      <v-btn icon size="x-small" variant="text" color="primary" @click="$emit('print')">
+        <v-tooltip activator="parent" location="top">Imprimir dibujo</v-tooltip>
+        <v-icon size="18">mdi-printer</v-icon>
+      </v-btn>
     </v-sheet>
   </v-card>
 </template>
@@ -123,7 +137,7 @@ const props = defineProps({
   canRedo: { type: Boolean, default: false }
 })
 
-const emit = defineEmits(['update:modelValue', 'undo', 'redo', 'clear', 'clear-sketch'])
+const emit = defineEmits(['update:modelValue', 'undo', 'redo', 'clear', 'clear-sketch', 'save', 'download', 'print'])
 
 const presetColors = [
   { value: '#000000', name: 'Negro' },

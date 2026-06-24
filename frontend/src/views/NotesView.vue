@@ -1,108 +1,149 @@
 <template>
   <v-container fluid class="pa-4 pa-md-6 fill-height align-start bg-grey-lighten-4">
     
-    <!-- Top actions -->
-    <div class="d-flex justify-space-between align-center w-100 mb-6">
-      <div class="d-flex align-center gap-2 overflow-x-auto pb-2">
-        <v-chip
-          :variant="activeCategory === null ? 'flat' : 'tonal'"
-          color="primary"
-          @click="filterByCategory(null)"
-        >
-          Todas
-        </v-chip>
-        <v-chip
-          v-for="cat in notesStore.categories"
-          :key="cat.id"
-          :variant="activeCategory === cat.id ? 'flat' : 'tonal'"
-          :style="{ backgroundColor: activeCategory === cat.id ? cat.color : 'transparent', color: '#333' }"
-          @click="filterByCategory(cat.id)"
-        >
-          <v-icon start size="16">mdi-{{ cat.icon }}</v-icon>
-          {{ cat.name }}
-        </v-chip>
+    <!-- Authenticated Notes Gallery -->
+    <template v-if="authStore.isAuthenticated">
+      <!-- Top actions -->
+      <div class="d-flex justify-space-between align-center w-100 mb-6">
+        <div class="d-flex align-center gap-2 overflow-x-auto pb-2">
+          <v-chip
+            :variant="activeCategory === null ? 'flat' : 'tonal'"
+            color="primary"
+            @click="filterByCategory(null)"
+          >
+            Todas
+          </v-chip>
+          <v-chip
+            v-for="cat in notesStore.categories"
+            :key="cat.id"
+            :variant="activeCategory === cat.id ? 'flat' : 'tonal'"
+            :style="{ backgroundColor: activeCategory === cat.id ? cat.color : 'transparent', color: '#333' }"
+            @click="filterByCategory(cat.id)"
+          >
+            <v-icon start size="16">mdi-{{ cat.icon }}</v-icon>
+            {{ cat.name }}
+          </v-chip>
 
-        <v-btn icon size="small" variant="tonal" class="ml-2" @click="categoryDialog = true">
-          <v-icon>mdi-plus</v-icon>
+          <v-btn icon size="small" variant="tonal" class="ml-2" @click="categoryDialog = true">
+            <v-icon>mdi-plus</v-icon>
+          </v-btn>
+        </div>
+
+        <v-btn
+          color="primary"
+          prepend-icon="mdi-plus"
+          elevation="2"
+          class="rounded-pill px-6"
+          @click="openEditor(null)"
+        >
+          Nueva Nota
         </v-btn>
       </div>
 
-      <v-btn
-        color="primary"
-        prepend-icon="mdi-plus"
-        elevation="2"
-        class="rounded-pill px-6"
-        @click="openEditor(null)"
-      >
-        Nueva Nota
-      </v-btn>
-    </div>
+      <!-- Notes Grid -->
+      <v-row v-if="notesStore.isLoading">
+        <v-col cols="12" class="d-flex justify-center mt-12">
+          <v-progress-circular indeterminate color="primary" size="48"></v-progress-circular>
+        </v-col>
+      </v-row>
 
-    <!-- Notes Grid -->
-    <v-row v-if="notesStore.isLoading">
-      <v-col cols="12" class="d-flex justify-center mt-12">
-        <v-progress-circular indeterminate color="primary" size="48"></v-progress-circular>
-      </v-col>
-    </v-row>
+      <v-row v-else-if="notesStore.notes.length === 0">
+        <v-col cols="12" class="d-flex flex-column align-center justify-center mt-12 text-grey">
+          <v-icon size="64" class="mb-4">mdi-note-off-outline</v-icon>
+          <h3 class="text-h5">No hay notas aquí</h3>
+        </v-col>
+      </v-row>
 
-    <v-row v-else-if="notesStore.notes.length === 0">
-      <v-col cols="12" class="d-flex flex-column align-center justify-center mt-12 text-grey">
-        <v-icon size="64" class="mb-4">mdi-note-off-outline</v-icon>
-        <h3 class="text-h5">No hay notas aquí</h3>
-      </v-col>
-    </v-row>
-
-    <v-row v-else class="masonry-grid">
-      <v-col
-        v-for="note in notesStore.notes"
-        :key="note.id"
-        cols="12" sm="6" md="4" lg="3"
-      >
-        <v-card
-          :color="note.color"
-          class="note-card rounded-xl pa-4"
-          elevation="2"
-          hover
-          @click="openEditor(note)"
+      <v-row v-else class="masonry-grid">
+        <v-col
+          v-for="note in notesStore.notes"
+          :key="note.id"
+          cols="12" sm="6" md="4" lg="3"
         >
-          <div class="d-flex justify-space-between align-start mb-2">
-            <h3 class="text-h6 font-weight-bold" style="color: rgba(0,0,0,0.8); line-height: 1.2;">
-              {{ note.title }}
-            </h3>
-            <v-icon v-if="note.is_pinned" color="orange" size="20">mdi-pin</v-icon>
-          </div>
-          
-          <p 
-            class="text-body-2 mb-4 text-truncate-3" 
-            style="color: rgba(0,0,0,0.6); white-space: pre-wrap;"
-            :class="{
-              'text-bold': note.text_style?.includes('bold'),
-              'text-italic': note.text_style ? note.text_style.includes('italic') : true,
-              'text-underline': note.text_style?.includes('underline')
-            }"
+          <v-card
+            :color="note.color"
+            class="note-card rounded-xl pa-4 position-relative"
+            elevation="2"
+            hover
+            @click="openEditor(note)"
           >
-            {{ note.content }}
-          </p>
-
-          <div class="d-flex justify-space-between align-end mt-auto">
-            <v-chip
-              v-if="note.category_id"
+            <div class="d-flex justify-space-between align-start mb-2 pr-6">
+              <h3 class="text-h6 font-weight-bold" style="color: rgba(0,0,0,0.8); line-height: 1.2;">
+                {{ note.title }}
+              </h3>
+              <v-icon v-if="note.is_pinned" color="orange" size="20">mdi-pin</v-icon>
+            </div>
+            
+            <!-- Quick delete button at top right -->
+            <v-btn
+              icon="mdi-delete"
+              variant="text"
+              color="grey-darken-1"
               size="x-small"
-              :color="getCategoryColor(note.category_id)"
-              variant="flat"
-              class="font-weight-bold text-black"
+              class="position-absolute"
+              style="top: 8px; right: 8px; z-index: 5;"
+              @click.stop="quickDeleteNote(note)"
+              title="Borrar nota"
+            ></v-btn>
+            
+            <p 
+              class="text-body-2 mb-4 text-truncate-3" 
+              style="color: rgba(0,0,0,0.6); white-space: pre-wrap;"
+              :class="[
+                {
+                  'text-bold': note.text_style?.includes('bold'),
+                  'text-italic': note.text_style ? note.text_style.includes('italic') : true,
+                  'text-underline': note.text_style?.includes('underline')
+                },
+                `note-size-${note.text_style?.find(s => s.startsWith('size-'))?.replace('size-', '') || 'large'}`
+              ]"
             >
-              <v-icon start size="12">mdi-{{ getCategoryIcon(note.category_id) }}</v-icon>
-              {{ getCategoryName(note.category_id) }}
-            </v-chip>
-            <span v-else></span>
+              {{ note.content }}
+            </p>
 
-            <!-- If note has strokes (drawings), show a small brush icon to indicate it -->
-            <v-icon v-if="note.strokes" size="16" color="grey-darken-1">mdi-draw</v-icon>
-          </div>
-        </v-card>
-      </v-col>
-    </v-row>
+            <div class="d-flex justify-space-between align-end mt-auto">
+              <v-chip
+                v-if="note.category_id"
+                size="x-small"
+                :color="getCategoryColor(note.category_id)"
+                variant="flat"
+                class="font-weight-bold text-black"
+              >
+                <v-icon start size="12">mdi-{{ getCategoryIcon(note.category_id) }}</v-icon>
+                {{ getCategoryName(note.category_id) }}
+              </v-chip>
+              <span v-else></span>
+
+              <!-- If note has strokes (drawings), show a small brush icon to indicate it -->
+              <v-icon v-if="note.strokes" size="16" color="grey-darken-1">mdi-draw</v-icon>
+            </div>
+          </v-card>
+        </v-col>
+      </v-row>
+    </template>
+
+    <!-- Guest Promo Screen -->
+    <v-card v-else class="fill-height w-100 rounded-xl d-flex flex-column align-center justify-center text-center pa-8" elevation="2" style="background: linear-gradient(135deg, #eef7ff 0%, #fff 100%);">
+      <div class="guest-container">
+        <v-icon size="96" color="primary" class="mb-4 animate-bounce">mdi-notebook-edit-outline</v-icon>
+        <h2 class="text-h4 font-weight-black text-primary mb-3">¡Tu Bloc de Notas Secreto! 📚</h2>
+        <p class="text-subtitle-1 text-grey-darken-1 mb-8 max-width-500">
+          Crea tu perfil o inicia sesión para crear notas secretas, escribir tus ideas y hacer dibujos divertidos sobre ellas. ¡Nunca se perderán! ✨
+        </p>
+        <div class="d-flex justify-center gap-4">
+          <v-btn
+            color="primary"
+            variant="flat"
+            size="large"
+            prepend-icon="mdi-account-circle"
+            class="rounded-pill font-weight-bold px-8 elevation-3"
+            @click="router.push('/login')"
+          >
+            Iniciar Sesión / Crear Perfil
+          </v-btn>
+        </div>
+      </div>
+    </v-card>
 
     <!-- Editor Modal -->
     <v-dialog v-model="editorDialog" fullscreen hide-overlay transition="dialog-bottom-transition">
@@ -139,13 +180,13 @@
             <v-icon>mdi-delete</v-icon>
           </v-btn>
 
-          <v-btn color="primary" variant="flat" class="ml-2 rounded-pill font-weight-bold" @click="saveNote" :loading="isSaving">
+          <v-btn color="primary" variant="flat" class="ml-2 rounded-pill font-weight-bold" @click="() => saveNote(false)" :loading="isSaving">
             Guardar
           </v-btn>
         </v-toolbar>
 
         <!-- Modal Content (Hybrid Text + Canvas) -->
-        <div class="fill-height position-relative overflow-hidden notebook-container">
+        <div class="fill-height position-relative overflow-hidden notebook-container" :class="`note-size-${activeTextSize}`">
           
           <!-- Text Layer (Underneath Canvas) -->
           <v-textarea
@@ -156,11 +197,14 @@
             hide-details
             :readonly="isDrawingMode"
             class="pa-4 text-layer text-body-2"
-            :class="{
-              'text-bold': activeTextStyles.includes('bold'),
-              'text-italic': activeTextStyles.includes('italic'),
-              'text-underline': activeTextStyles.includes('underline')
-            }"
+            :class="[
+              {
+                'text-bold': activeTextStyles.includes('bold'),
+                'text-italic': activeTextStyles.includes('italic'),
+                'text-underline': activeTextStyles.includes('underline')
+              },
+              `note-size-${activeTextSize}`
+            ]"
             style="position: absolute; width: 100%; height: 100%; z-index: 1;"
             :style="{ pointerEvents: isDrawingMode ? 'none' : 'auto' }"
           ></v-textarea>
@@ -174,6 +218,7 @@
               :tool="brushSettings.tool"
               :is-drawing-mode="isDrawingMode && brushSettings.tool !== 'fill'"
               :initial-data="editingNote.strokes"
+              @change="onCanvasChange"
             />
           </div>
 
@@ -211,6 +256,28 @@
                 <v-btn value="bold" icon="mdi-format-bold" title="Negrita" size="28" class="rounded-pill"></v-btn>
                 <v-btn value="italic" icon="mdi-format-italic" title="Cursiva" size="28" class="rounded-pill"></v-btn>
                 <v-btn value="underline" icon="mdi-format-underline" title="Subrayado" size="28" class="rounded-pill"></v-btn>
+              </v-btn-toggle>
+
+              <!-- Text Sizing Buttons (only visible in Keyboard mode) -->
+              <v-btn-toggle
+                v-if="!isDrawingMode"
+                v-model="activeTextSize"
+                mandatory
+                color="primary"
+                variant="tonal"
+                density="compact"
+                class="rounded-pill mr-2 bg-grey-lighten-4"
+                @update:model-value="onTextSizeChange"
+              >
+                <v-btn value="small" title="Texto Pequeño" size="28" class="rounded-pill">
+                  <span style="font-size: 10px; font-weight: bold;">A</span>
+                </v-btn>
+                <v-btn value="medium" title="Texto Mediano" size="28" class="rounded-pill">
+                  <span style="font-size: 13px; font-weight: bold;">A</span>
+                </v-btn>
+                <v-btn value="large" title="Texto Grande" size="28" class="rounded-pill">
+                  <span style="font-size: 16px; font-weight: bold;">A</span>
+                </v-btn>
               </v-btn-toggle>
               
               <v-divider vertical class="mx-1"></v-divider>
@@ -255,6 +322,8 @@
               @redo="noteCanvas?.redo()"
               @clear="noteCanvas?.clear()"
               @clear-sketch="noteCanvas?.clearSketchLines()"
+              @download="downloadDrawing"
+              @print="printDrawing"
             />
           </div>
 
@@ -300,12 +369,16 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, watch } from 'vue'
+import { useRouter } from 'vue-router'
 import { useNotesStore } from '@/stores/notes'
+import { useAuthStore } from '@/stores/auth'
 import DrawingCanvas from '@/components/DrawingCanvas.vue'
 import CanvasToolbar from '@/components/CanvasToolbar.vue'
 
+const router = useRouter()
 const notesStore = useNotesStore()
+const authStore = useAuthStore()
 
 // State
 const activeCategory = ref(null)
@@ -314,8 +387,9 @@ const isSaving = ref(false)
 const isDrawingMode = ref(false)
 const noteCanvas = ref(null)
 
-// Text style state (default is ['italic'] for cursive)
+// Text style and size states (default is cursive/large)
 const activeTextStyles = ref(JSON.parse(localStorage.getItem('creativakids_text_style')) || ['italic'])
+const activeTextSize = ref(localStorage.getItem('creativakids_text_size') || 'large')
 
 // Category State
 const categoryDialog = ref(false)
@@ -341,16 +415,23 @@ const brushSettings = reactive({ color: '#1A237E', width: 3, tool: 'brush' }) //
 // Lifecycle
 onMounted(async () => {
   await notesStore.fetchCategories()
-  await notesStore.fetchNotes()
+  if (authStore.isAuthenticated) {
+    await notesStore.fetchNotes()
+  }
 })
 
 // Methods
 function filterByCategory(id) {
   activeCategory.value = id
-  notesStore.fetchNotes(id)
+  if (authStore.isAuthenticated) {
+    notesStore.fetchNotes(id)
+  }
 }
 
+let isPopulating = false
+
 function openEditor(note = null) {
+  isPopulating = true
   if (note) {
     editingNote.id = note.id
     editingNote.title = note.title
@@ -361,7 +442,11 @@ function openEditor(note = null) {
     editingNote.is_pinned = note.is_pinned
     
     // Load note's specific text style (default to italic if null)
-    activeTextStyles.value = note.text_style || ['italic']
+    activeTextStyles.value = note.text_style?.filter(s => !s.startsWith('size-')) || ['italic']
+    
+    // Load size
+    const sizeStyle = note.text_style?.find(s => s.startsWith('size-'))
+    activeTextSize.value = sizeStyle ? sizeStyle.replace('size-', '') : 'large'
   } else {
     editingNote.id = null
     editingNote.title = ''
@@ -371,35 +456,112 @@ function openEditor(note = null) {
     editingNote.color = '#ffffff'
     editingNote.is_pinned = false
     
-    // For new notes, inherit last used style from localStorage
+    // For new notes, inherit last used values from localStorage
     activeTextStyles.value = JSON.parse(localStorage.getItem('creativakids_text_style')) || ['italic']
+    activeTextSize.value = localStorage.getItem('creativakids_text_size') || 'large'
   }
   isDrawingMode.value = false
   editorDialog.value = true
+
+  setTimeout(() => {
+    isPopulating = false
+  }, 100)
 }
 
-async function saveNote() {
+async function saveNote(isAutoSave = false) {
+  if (!authStore.isAuthenticated) {
+    if (!isAutoSave) {
+      alert('¡Inicia sesión o regístrate para guardar tus notas secretas! ✨')
+      router.push('/login')
+    }
+    return
+  }
+
   isSaving.value = true
   try {
     // Get latest drawing strokes from canvas
     if (noteCanvas.value) {
       const strokesJson = noteCanvas.value.getJsonData()
-      // Only save if there's actual drawing data (not just empty canvas)
       editingNote.strokes = strokesJson?.objects?.length > 0 ? strokesJson : null
     }
 
-    // Save active text styles
-    editingNote.text_style = activeTextStyles.value
+    // Save active text styles combined with current size class
+    const finalStyles = activeTextStyles.value.filter(s => !s.startsWith('size-'))
+    finalStyles.push(`size-${activeTextSize.value}`)
+    editingNote.text_style = finalStyles
 
-    await notesStore.saveNote({ ...editingNote })
-    editorDialog.value = false
+    const saved = await notesStore.saveNote({ ...editingNote })
+    if (saved && !editingNote.id) {
+      editingNote.id = saved.id
+    }
+    
+    if (!isAutoSave) {
+      editorDialog.value = false
+    }
   } finally {
     isSaving.value = false
   }
 }
 
+// Debounce helper
+function debounce(fn, delay) {
+  let timeoutId
+  return (...args) => {
+    if (timeoutId) clearTimeout(timeoutId)
+    timeoutId = setTimeout(() => {
+      fn(...args)
+    }, delay)
+  }
+}
+
+// Debounced autosave
+const debouncedSave = debounce(() => {
+  if (!editorDialog.value || !authStore.isAuthenticated || isPopulating) return
+  saveNote(true)
+}, 2000)
+
+function onCanvasChange() {
+  debouncedSave()
+}
+
+// Watchers for note fields and metadata to trigger autosave
+watch(
+  () => [
+    editingNote.title,
+    editingNote.content,
+    editingNote.category_id,
+    editingNote.color,
+    editingNote.is_pinned
+  ],
+  () => {
+    if (editorDialog.value) {
+      debouncedSave()
+    }
+  }
+)
+
+watch(
+  () => [activeTextStyles.value, activeTextSize.value],
+  () => {
+    if (editorDialog.value) {
+      debouncedSave()
+    }
+  },
+  { deep: true }
+)
+
 function onTextStyleChange(val) {
   localStorage.setItem('creativakids_text_style', JSON.stringify(val))
+}
+
+function onTextSizeChange(val) {
+  localStorage.setItem('creativakids_text_size', val)
+}
+
+async function quickDeleteNote(note) {
+  if (confirm(`¿Seguro que quieres borrar la nota "${note.title || 'sin título'}"?`)) {
+    await notesStore.deleteNote(note.id)
+  }
 }
 
 async function deleteNote() {
@@ -417,9 +579,70 @@ async function createCategory() {
     categoryDialog.value = false
     newCategory.name = ''
     activeCategory.value = cat.id // Auto-select new category
-    await notesStore.fetchNotes(cat.id)
+    if (authStore.isAuthenticated) {
+      await notesStore.fetchNotes(cat.id)
+    }
   } finally {
     isCreatingCat.value = false
+  }
+}
+
+function downloadDrawing() {
+  if (!noteCanvas.value) return
+  const dataUrl = noteCanvas.value.getImageDataUrl()
+  if (!dataUrl) return
+
+  const link = document.createElement('a')
+  link.download = `creativakids-nota-dibujo-${Date.now()}.png`
+  link.href = dataUrl
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+}
+
+function printDrawing() {
+  if (!noteCanvas.value) return
+  const dataUrl = noteCanvas.value.getImageDataUrl()
+  if (!dataUrl) return
+
+  const windowContent = `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <title>Imprimir Dibujo — CreativaKids</title>
+        <style>
+          body {
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: #fff;
+          }
+          img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+          }
+        </style>
+      </head>
+      <body>
+        <img src="${dataUrl}" />
+        <script>
+          window.onload = function() {
+            window.print();
+            setTimeout(() => { window.close(); }, 500);
+          };
+        <\/script>
+      </body>
+    </html>
+  `
+
+  const printWin = window.open('', '', 'width=800,height=600')
+  if (printWin) {
+    printWin.document.open()
+    printWin.document.write(windowContent)
+    printWin.document.close()
   }
 }
 
@@ -457,22 +680,60 @@ function getCategoryIcon(id) { return getCategoryInfo(id).icon || 'folder' }
 /* Notebook school lines and pink margin - scaled for tablets */
 .notebook-container {
   background-color: #fdfbf7 !important;
+  background-position: 0 0;
+}
+
+/* Scaling line spacing */
+.notebook-container.note-size-small {
+  background-image: 
+    linear-gradient(90deg, transparent 59px, #ffa6a6 59px, #ffa6a6 61px, transparent 61px), 
+    linear-gradient(#e4e1db 1px, transparent 1px);
+  background-size: 100% 100%, 100% 20px;
+}
+.notebook-container.note-size-medium {
   background-image: 
     linear-gradient(90deg, transparent 59px, #ffa6a6 59px, #ffa6a6 61px, transparent 61px), 
     linear-gradient(#e4e1db 1px, transparent 1px);
   background-size: 100% 100%, 100% 24px;
-  background-position: 0 0;
+}
+.notebook-container.note-size-large {
+  background-image: 
+    linear-gradient(90deg, transparent 59px, #ffa6a6 59px, #ffa6a6 61px, transparent 61px), 
+    linear-gradient(#e4e1db 1px, transparent 1px);
+  background-size: 100% 100%, 100% 32px;
 }
 
 /* Align text to sit perfectly on top of notebook lines */
 .text-layer :deep(textarea) {
-  line-height: 24px !important;
-  font-size: 14px !important;
   font-family: 'Nunito', 'Nunito Sans', sans-serif;
   color: rgba(0,0,0,0.8);
   padding-left: 70px !important; /* Move text past vertical pink margin */
-  padding-top: 6px !important; /* Fine tune first line offset */
   padding-bottom: 80px !important;
+}
+
+/* Scaling text sizes and alignment */
+.text-layer.note-size-small :deep(textarea), .note-size-small {
+  line-height: 20px !important;
+  font-size: 12px !important;
+}
+.text-layer.note-size-small :deep(textarea) {
+  padding-top: 4px !important;
+}
+
+.text-layer.note-size-medium :deep(textarea), .note-size-medium {
+  line-height: 24px !important;
+  font-size: 14px !important;
+}
+.text-layer.note-size-medium :deep(textarea) {
+  padding-top: 6px !important;
+}
+
+.text-layer.note-size-large :deep(textarea), .note-size-large {
+  line-height: 32px !important;
+  font-size: 18px !important;
+}
+.text-layer.note-size-large :deep(textarea) {
+  padding-top: 10px !important;
 }
 
 /* Text styling modifiers */
@@ -492,5 +753,24 @@ function getCategoryIcon(id) { return getCategoryInfo(id).icon || 'folder' }
   left: 50%;
   transform: translateX(-50%);
   z-index: 10;
+}
+
+.guest-container {
+  max-width: 600px;
+}
+
+.max-width-500 {
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.animate-bounce {
+  animation: bounce 2s infinite ease-in-out;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
 }
 </style>

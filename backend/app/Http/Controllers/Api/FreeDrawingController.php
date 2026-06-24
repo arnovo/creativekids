@@ -8,44 +8,51 @@ use Illuminate\Http\Request;
 
 class FreeDrawingController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        // Return latest drawings first
-        return response()->json(FreeDrawing::orderBy('updated_at', 'desc')->get());
+        // Return latest drawings first, scoped to user
+        return response()->json($request->user()->freeDrawings()->orderBy('updated_at', 'desc')->get());
     }
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'title' => 'nullable|string',
             'background_color' => 'nullable|string',
             'strokes' => 'nullable|array',
         ]);
 
-        $drawing = FreeDrawing::create($request->all());
+        $validated['user_id'] = $request->user()->id;
+
+        $drawing = FreeDrawing::create($validated);
         return response()->json($drawing, 201);
     }
 
-    public function show(FreeDrawing $freeDrawing)
+    public function show(Request $request, FreeDrawing $freeDrawing)
     {
-        return response()->json($freeDrawing);
+        $userDrawing = $request->user()->freeDrawings()->findOrFail($freeDrawing->id);
+        return response()->json($userDrawing);
     }
 
     public function update(Request $request, FreeDrawing $freeDrawing)
     {
-        $request->validate([
+        $validated = $request->validate([
             'title' => 'nullable|string',
             'background_color' => 'nullable|string',
             'strokes' => 'nullable|array',
         ]);
 
-        $freeDrawing->update($request->all());
-        return response()->json($freeDrawing);
+        $userDrawing = $request->user()->freeDrawings()->findOrFail($freeDrawing->id);
+        $userDrawing->update($validated);
+        
+        return response()->json($userDrawing);
     }
 
-    public function destroy(FreeDrawing $freeDrawing)
+    public function destroy(Request $request, FreeDrawing $freeDrawing)
     {
-        $freeDrawing->delete();
+        $userDrawing = $request->user()->freeDrawings()->findOrFail($freeDrawing->id);
+        $userDrawing->delete();
+        
         return response()->json(null, 204);
     }
 }

@@ -18,6 +18,7 @@ class Note extends Model
         'color',
         'is_pinned',
         'text_style',
+        'user_id',
     ];
 
     protected function casts(): array
@@ -30,6 +31,11 @@ class Note extends Model
     }
 
     // ─── Relationships ────────────────────────────────────
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);

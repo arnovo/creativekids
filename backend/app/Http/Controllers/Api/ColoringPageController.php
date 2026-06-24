@@ -16,11 +16,34 @@ class ColoringPageController extends Controller
             $query->where('category_name', $request->category);
         }
 
-        return response()->json($query->get());
+        $pages = $query->get();
+        $user = \Illuminate\Support\Facades\Auth::guard('sanctum')->user();
+
+        if ($user) {
+            // Obtener el progreso de colorear del usuario de forma masiva si está autenticado
+            $progressMap = \App\Models\ColoringProgress::where('user_id', $user->id)
+                ->pluck('user_data', 'coloring_page_id');
+
+            foreach ($pages as $page) {
+                $page->user_data = $progressMap->get($page->id);
+            }
+        }
+
+        return response()->json($pages);
     }
 
-    public function show(ColoringPage $coloringPage)
+    public function show(Request $request, ColoringPage $coloringPage)
     {
+        $user = \Illuminate\Support\Facades\Auth::guard('sanctum')->user();
+        
+        if ($user) {
+            $progress = \App\Models\ColoringProgress::where('user_id', $user->id)
+                ->where('coloring_page_id', $coloringPage->id)
+                ->first();
+
+            $coloringPage->user_data = $progress ? $progress->user_data : null;
+        }
+
         return response()->json($coloringPage);
     }
 
@@ -30,8 +53,14 @@ class ColoringPageController extends Controller
             'user_data' => 'nullable|array'
         ]);
 
-        $coloringPage->user_data = $request->user_data;
-        $coloringPage->save();
+        $user = $request->user();
+
+        $progress = \App\Models\ColoringProgress::updateOrCreate(
+            ['user_id' => $user->id, 'coloring_page_id' => $coloringPage->id],
+            ['user_data' => $request->user_data]
+        );
+
+        $coloringPage->user_data = $progress->user_data;
 
         return response()->json($coloringPage);
     }

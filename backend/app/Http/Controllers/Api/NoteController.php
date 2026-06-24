@@ -10,7 +10,7 @@ class NoteController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Note::query();
+        $query = $request->user()->notes();
         
         if ($request->has('category_id')) {
             $query->where('category_id', $request->category_id);
@@ -35,13 +35,17 @@ class NoteController extends Controller
             'text_style'  => 'nullable|array',
         ]);
 
+        $validated['user_id'] = $request->user()->id;
+
         $note = Note::create($validated);
         return response()->json($note, 201);
     }
 
-    public function show(Note $note)
+    public function show(Request $request, Note $note)
     {
-        return response()->json($note);
+        // Asegurar que la nota pertenece al usuario
+        $userNote = $request->user()->notes()->findOrFail($note->id);
+        return response()->json($userNote);
     }
 
     public function update(Request $request, Note $note)
@@ -56,13 +60,17 @@ class NoteController extends Controller
             'text_style'  => 'nullable|array',
         ]);
 
-        $note->update($validated);
-        return response()->json($note);
+        $userNote = $request->user()->notes()->findOrFail($note->id);
+        $userNote->update($validated);
+        
+        return response()->json($userNote);
     }
 
-    public function destroy(Note $note)
+    public function destroy(Request $request, Note $note)
     {
-        $note->delete();
+        $userNote = $request->user()->notes()->findOrFail($note->id);
+        $userNote->delete();
+        
         return response()->noContent();
     }
 }

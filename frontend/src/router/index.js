@@ -1,6 +1,19 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
 
 const routes = [
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import('@/views/LoginView.vue'),
+    meta: { title: 'CreativaKids — Iniciar Sesión', guest: true }
+  },
+  {
+    path: '/register',
+    name: 'register',
+    component: () => import('@/views/RegisterView.vue'),
+    meta: { title: 'CreativaKids — Crear Perfil', guest: true }
+  },
   {
     path: '/',
     name: 'home',
@@ -42,6 +55,29 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes,
+})
+
+// Authentication navigation guard
+router.beforeEach(async (to, from, next) => {
+  const authStore = useAuthStore()
+
+  // Try to load user profile on startup if we have a saved token
+  if (authStore.token && !authStore.user) {
+    await authStore.fetchUser()
+  }
+
+  const isAuthenticated = authStore.isAuthenticated
+
+  if (to.meta.guest) {
+    if (isAuthenticated) {
+      next('/')
+    } else {
+      next()
+    }
+  } else {
+    // Allow free access to all views for guests
+    next()
+  }
 })
 
 // Dynamic page title

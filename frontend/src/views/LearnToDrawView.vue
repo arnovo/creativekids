@@ -173,6 +173,8 @@
           @clear="triggerClear"
           @clear-sketch="triggerClearSketch"
           @save="saveCurrentProgress"
+          @download="downloadDrawing"
+          @print="printDrawing"
         />
       </div>
     </v-card>
@@ -182,11 +184,15 @@
 
 <script setup>
 import { ref, reactive, computed, watch, onMounted, onUnmounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { useSketchesStore } from '@/stores/sketches'
+import { useAuthStore } from '@/stores/auth'
 import DrawingCanvas from '@/components/DrawingCanvas.vue'
 import CanvasToolbar from '@/components/CanvasToolbar.vue'
 
+const router = useRouter()
 const sketchesStore = useSketchesStore()
+const authStore = useAuthStore()
 
 // State
 const currentStepIndex = ref(0)
@@ -229,9 +235,10 @@ watch([isTraceMode, currentStepIndex], ([traceEnabled]) => {
 // Methods
 async function loadSketch(id) {
   await sketchesStore.fetchSketch(id)
-  currentStepIndex.value = 0
+  const savedStep = sketchesStore.currentSketch?.user_data?.saved_step_index
+  currentStepIndex.value = (typeof savedStep === 'number') ? savedStep : 0
   isTraceMode.value = false
-  triggerClear() // Clear canvas when starting new sketch
+  triggerClear()
 }
 
 function closeSketch() {
@@ -264,12 +271,40 @@ function getDifficultyColor(diff) {
   return map[diff] || 'grey'
 }
 
+// Debounce helper
+function debounce(fn, delay) {
+  let timeoutId
+  return (...args) => {
+    if (timeoutId) clearTimeout(timeoutId)
+    timeoutId = setTimeout(() => {
+      fn(...args)
+    }, delay)
+  }
+}
+
+// Debounced save
+const debouncedSave = debounce(() => {
+  if (authStore.isAuthenticated && sketchesStore.currentSketch) {
+    saveCurrentProgress(true)
+  }
+}, 2000)
+
 function onCanvasChange() {
   if (drawingCanvas.value) {
     canUndo.value = drawingCanvas.value.canUndo()
     canRedo.value = drawingCanvas.value.canRedo()
+    
+    // Auto-save if logged in
+    debouncedSave()
   }
 }
+
+// Watch step changes to autosave step index
+watch(currentStepIndex, () => {
+  if (sketchesStore.currentSketch) {
+    debouncedSave()
+  }
+})
 
 function triggerUndo() { drawingCanvas.value?.undo() }
 function triggerRedo() { drawingCanvas.value?.redo() }
@@ -277,8 +312,18 @@ function triggerClear() { drawingCanvas.value?.clear() }
 function triggerClearSketch() { drawingCanvas.value?.clearSketchLines() }
 
 const isSaving = ref(false)
-async function saveCurrentProgress() {
+async function saveCurrentProgress(isAutoSave = false) {
   if (!drawingCanvas.value || !sketchesStore.currentSketch) return
+  
+  // Bloquear guardado en la nube para invitados
+  if (!authStore.isAuthenticated) {
+    if (!isAutoSave) {
+      alert('¡Crea tu perfil o inicia sesión para guardar tus dibujos y no perderlos! ✨')
+      router.push('/login')
+    }
+    return
+  }
+
   isSaving.value = true
   
   try {
@@ -287,10 +332,8 @@ async function saveCurrentProgress() {
     strokes.saved_step_index = currentStepIndex.value
     
     const success = await sketchesStore.saveProgress(sketchesStore.currentSketch.id, strokes)
-    if (success) {
+    if (success && !isAutoSave) {
       alert('¡Progreso guardado correctamente!')
-    } else {
-      alert('Hubo un error al guardar.')
     }
   } catch (e) {
     console.error(e)
@@ -299,11 +342,67 @@ async function saveCurrentProgress() {
   }
 }
 
-// Ensure proper cleanup on unmount
-onUnmounted(() => {
-  if (sketchContainer.value) {
-    // cleanup if needed
+function downloadDrawing() {
+  if (!drawingCanvas.value) return
+  const dataUrl = drawingCanvas.value.getImageDataUrl()
+  if (!dataUrl) return
+
+  const link = document.createElement('a')
+  link.download = `creativakids-boceto-${Date.now()}.png`
+  link.href = dataUrl
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+}
+
+function printDrawing() {
+  if (!drawingCanvas.value) return
+  const dataUrl = drawingCanvas.value.getImageDataUrl()
+  if (!dataUrl) return
+
+  const windowContent = `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <title>Imprimir Dibujo — CreativaKids</title>
+        <style>
+          body {
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: #fff;
+          }
+          img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+          }
+        </style>
+      </head>
+      <body>
+        <img src="${dataUrl}" />
+        <script>
+          window.onload = function() {
+            window.print();
+            setTimeout(() => { window.close(); }, 500);
+          };
+        <\/script>
+      </body>
+    </html>
+  `
+
+  const printWin = window.open('', '', 'width=800,height=600')
+  if (printWin) {
+    printWin.document.open()
+    printWin.document.write(windowContent)
+    printWin.document.close()
   }
+}
+
+onUnmounted(() => {
+  sketchesStore.currentSketch = null
 })
 </script>
 
